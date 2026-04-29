@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Klar4Jobb — Job-Readiness Companion for Norway</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A0A0A;
+  --surface: #141414;
+  --surface2: #1E1E1E;
+  --border: #2A2A2A;
+  --border2: #383838;
+  --white: #F5F3EE;
+  --gray1: #666;
+  --gray2: #999;
+  --gray3: #CCC;
+  --light: #F0EDE8;
+  --green: #2A7A3B;
+  --green-light: #4CAF63;
+  --amber: #C8820A;
+  --amber-light: #F0A830;
+  --red: #8B2020;
+  --accent: #E8E0D0;
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --r: 14px;
+  --r-sm: 8px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--white);
+}
+#phone {
+  width: 390px;
+  height: 844px;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+  border-radius: 48px;
+  box-shadow: 0 0 0 1px #333, 0 40px 120px rgba(0,0,0,0.8);
+}
+@media (max-width: 420px) {
+  body { align-items: flex-start; background: var(--bg); }
+  #phone { width: 100vw; height: 100dvh; border-radius: 0; box-shadow: none; }
+}
+.screen {
+  position: absolute; inset: 0;
+  display: none; flex-direction: column;
+  overflow-y: auto; overflow-x: hidden;
+  opacity: 0; transition: opacity 0.2s ease;
+  background: var(--bg);
+  scrollbar-width: none;
+}
+.screen::-webkit-scrollbar { display: none; }
+.screen.active { display: flex; }
+.screen.visible { opacity: 1; }
+
+/* TYPOGRAPHY */
+.t-hero { font-family: var(--font-head); font-size: 52px; font-weight: 800; line-height: 1; letter-spacing: -2px; }
+.t-h1 { font-family: var(--font-head); font-size: 28px; font-weight: 700; line-height: 1.1; letter-spacing: -0.5px; }
+.t-h2 { font-family: var(--font-head); font-size: 22px; font-weight: 700; line-height: 1.2; }
+.t-h3 { font-family: var(--font-head); font-size: 17px; font-weight: 600; }
+.t-body { font-size: 15px; line-height: 1.6; color: var(--gray3); }
+.t-sm { font-size: 13px; color: var(--gray2); line-height: 1.5; }
+.t-xs { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray2); font-weight: 600; }
+.t-num { font-family: var(--font-head); font-size: 42px; font-weight: 800; letter-spacing: -1px; }
+
+/* COMPONENTS */
+.btn-primary {
+  width: 100%; padding: 17px 24px; border-radius: 100px;
+  background: var(--white); color: var(--bg);
+  font-family: var(--font-body); font-size: 16px; font-weight: 600;
+  border: none; cursor: pointer; transition: transform 0.1s, opacity 0.1s;
+}
+.btn-primary:active { transform: scale(0.97); opacity: 0.9; }
+.btn-outline {
+  width: 100%; padding: 15px 24px; border-radius: 100px;
+  background: transparent; color: var(--white);
+  font-family: var(--font-body); font-size: 16px; font-weight: 500;
+  border: 1px solid var(--border2); cursor: pointer; transition: transform 0.1s;
+}
+.btn-outline:active { transform: scale(0.97); }
+
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 18px;
+}
+.card-light {
+  background: var(--light); border-radius: var(--r); padding: 18px;
+  color: #1a1a1a;
+}
+
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 100px;
+  font-size: 13px; font-weight: 500; white-space: nowrap;
+}
+.chip-green { background: rgba(42,122,59,0.2); color: #6FCF82; border: 1px solid rgba(42,122,59,0.4); }
+.chip-amber { background: rgba(200,130,10,0.15); color: var(--amber-light); border: 1px solid rgba(200,130,10,0.3); }
+.chip-gray { background: var(--surface2); color: var(--gray2); border: 1px solid var(--border); }
+
+.progress-track {
+  width: 100%; height: 6px; background: var(--surface2);
+  border-radius: 100px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: var(--white); border-radius: 100px;
+  transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+.progress-fill.amber { background: var(--amber-light); }
+
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.see-all { font-size: 13px; color: var(--gray2); cursor: pointer; text-decoration: none; }
+.see-all:active { opacity: 0.6; }
+
+.top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 12px; position: sticky; top: 0;
+  background: var(--bg); z-index: 10; border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.back-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px;
+}
+.back-btn:active { opacity: 0.7; }
+.avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--surface2); border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: var(--gray3);
+  cursor: pointer;
+}
+
+.bottom-nav {
+  position: sticky; bottom: 0; flex-shrink: 0;
+  display: flex; background: var(--surface);
+  border-top: 1px solid var(--border); padding: 10px 0 20px;
+}
+.nav-btn {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 4px; cursor: pointer;
+  padding: 8px; border: none; background: none;
+}
+.nav-btn:active { opacity: 0.6; }
+.nav-icon { font-size: 20px; }
+.nav-label { font-size: 11px; color: var(--gray2); font-weight: 500; }
+.nav-btn.active .nav-label { color: var(--white); }
+.nav-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--white); margin: 0 auto; }
+
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 4px 10px; border-radius: 100px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.badge-green { background: rgba(42,122,59,0.25); color: #6FCF82; border: 1px solid rgba(42,122,59,0.4); }
+.badge-amber { background: rgba(200,130,10,0.2); color: var(--amber-light); border: 1px solid rgba(200,130,10,0.35); }
+.badge-gray { background: var(--surface2); color: var(--gray2); border: 1px solid var(--border2); }
+
+.logo-svg { display: inline-block; color: var(--white); }
+
+/* BOTTOM SHEET */
+.sheet-backdrop {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.7);
+  z-index: 100; display: none; opacity: 0; transition: opacity 0.25s;
+}
+.sheet-backdrop.open { display: block; opacity: 1; }
+.bottom-sheet {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--surface); border-radius: var(--r-xl) var(--r-xl) 0 0;
+  padding: 16px 20px 36px; transform: translateY(100%);
+  transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+  max-height: 80%; overflow-y: auto;
+}
+.bottom-sheet.open { transform: translateY(0); }
+.sheet-handle {
+  width: 40px; height: 4px; background: var(--border2);
+  border-radius: 100px; margin: 0 auto 20px;
+}
+.sheet-close {
+  position: absolute; top: 16px; right: 20px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--surface2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 14px; color: var(--gray2);
+}
+
+/* TOAST */
+#toast-container {
+  position: absolute; bottom: 88px; left: 0; right: 0;
+  display: flex; justify-content: center; z-index: 200; pointer-events: none;
+}
+.toast {
+  background: var(--surface2); color: var(--white);
+  padding: 12px 20px; border-radius: 100px;
+  font-size: 14px; font-weight: 500;
+  border: 1px solid var(--border2);
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 0.2s, transform 0.2s;
+  max-width: 320px; text-align: center;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* SCROLLABLE CONTENT PAD */
+.scroll-content { padding: 20px; flex: 1; }
+.gap-12 { gap: 12px; }
+.gap-8 { gap: 8px; }
+.flex-col { display: flex; flex-direction: column; }
+.flex-row { display: flex; flex-direction: row; }
+.flex-wrap { flex-wrap: wrap; }
+
+/* CHECKLIST ITEM */
+.check-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.check-item:last-child { border-bottom: none; }
+.check-item:active { opacity: 0.7; }
+.check-circle {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  border: 1.5px solid var(--border2); display: flex;
+  align-items: center; justify-content: center; font-size: 12px;
+}
+.check-circle.done { background: var(--white); border-color: var(--white); color: var(--bg); }
+.check-label { flex: 1; font-size: 15px; }
+.check-label.done { color: var(--gray2); text-decoration: line-through; }
+.check-arrow { color: var(--gray1); font-size: 14px; }
+
+/* MATCH CARD */
+.match-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 18px; cursor: pointer;
+  transition: border-color 0.15s;
+}
+.match-card:active { border-color: var(--border2); }
+.match-card.best { border-color: rgba(245,243,238,0.3); }
+.match-card.ambition { border-color: rgba(200,130,10,0.4); }
+
+/* GAP PILL */
+.gap-pill {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 16px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 100px;
+  cursor: pointer; transition: border-color 0.15s;
+}
+.gap-pill:active { border-color: var(--border2); }
+.gap-pill-label { font-size: 14px; font-weight: 500; }
+.gap-pill-time { font-size: 12px; color: var(--gray2); }
+
+/* STAT CARD */
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px; flex: 1;
+}
+.stat-num { font-family: var(--font-head); font-size: 34px; font-weight: 800; letter-spacing: -1px; }
+
+/* ONBOARDING PROGRESS DOTS */
+.progress-dots { display: flex; gap: 6px; justify-content: center; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border2); transition: background 0.2s, width 0.2s; }
+.dot.active { background: var(--white); width: 20px; border-radius: 100px; }
+
+/* TAB PILLS */
+.tab-bar { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab-pill {
+  padding: 8px 16px; border-radius: 100px; white-space: nowrap;
+  font-size: 13px; font-weight: 600; cursor: pointer; border: none;
+  background: var(--surface); color: var(--gray2);
+  border: 1px solid var(--border); transition: all 0.15s;
+}
+.tab-pill.active { background: var(--white); color: var(--bg); border-color: var(--white); }
+.tab-pill:active { opacity: 0.8; }
+
+/* MILESTONE */
+.milestone { display: flex; gap: 14px; align-items: flex-start; padding: 8px 0; }
+.milestone-dot {
+  width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+  margin-top: 2px; display: flex; align-items: center; justify-content: center; font-size: 11px;
+}
+.milestone-dot.done { background: var(--white); color: var(--bg); }
+.milestone-dot.current { background: var(--white); box-shadow: 0 0 0 4px rgba(245,243,238,0.15); animation: pulse 2s infinite; }
+.milestone-dot.future { background: var(--surface2); border: 1.5px solid var(--border2); }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 4px rgba(245,243,238,0.1)} 50%{box-shadow:0 0 0 8px rgba(245,243,238,0.05)} }
+.milestone-line { width: 1px; height: 24px; background: var(--border); margin-left: 9px; }
+
+/* COURSE EXPAND */
+.course-expand { display: none; margin-top: 12px; flex-direction: column; gap: 8px; }
+.course-expand.open { display: flex; }
+.course-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; background: var(--surface2); border-radius: var(--r-sm);
+  cursor: pointer;
+}
+.course-row:active { opacity: 0.7; }
+
+/* ONBOARDING CHECKLIST ITEM */
+.onboard-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer;
+}
+.onboard-item:last-child { border-bottom: none; }
+.onboard-check {
+  width: 22px; height: 22px; border-radius: var(--r-sm);
+  border: 1.5px solid var(--border2); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 12px;
+}
+.onboard-check.checked { background: var(--white); border-color: var(--white); color: var(--bg); }
+
+/* BADGE SCROLL */
+.badge-scroll { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+.badge-scroll::-webkit-scrollbar { display: none; }
+.badge-item {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  min-width: 72px; cursor: pointer;
+}
+.badge-icon {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.badge-icon.earned { background: rgba(245,243,238,0.1); border-color: rgba(245,243,238,0.3); }
+.badge-lbl { font-size: 10px; color: var(--gray2); text-align: center; line-height: 1.3; }
+
+/* ROLE SELECT */
+.role-card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--r); padding: 16px; cursor: pointer;
+  transition: border-color 0.15s; position: relative;
+}
+.role-card.selected { border-color: var(--white); }
+.role-card.ambition-role { border-color: rgba(200,130,10,0.4); }
+.role-card.ambition-role.selected { border-color: var(--amber-light); }
+.role-card:active { opacity: 0.85; }
+
+/* LOCKED */
+.locked { opacity: 0.4; pointer-events: none; position: relative; }
+.lock-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+@keyframes lock-pulse { 0%,100%{opacity:0.4} 50%{opacity:0.7} }
+.lock-pulse { animation: lock-pulse 2.5s infinite; }
+
+/* DONUT */
+.donut-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.donut-center { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+/* INFO CARD */
+.info-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 18px; margin-bottom: 12px;
+}
+.info-card-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray2); font-weight: 600; margin-bottom: 10px; }
+
+/* SELECT */
+select {
+  background: var(--surface2); color: var(--white); border: 1px solid var(--border2);
+  border-radius: var(--r-sm); padding: 10px 14px; font-family: var(--font-body);
+  font-size: 14px; width: 100%; cursor: pointer; outline: none;
+}
+select option { background: #1E1E1E; }
+
+/* EMAIL INPUT */
+input[type="email"] {
+  width: 100%; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 14px 16px; color: var(--white);
+  font-family: var(--font-body); font-size: 15px; outline: none;
+  transition: border-color 0.15s;
+}
+input[type="email"]:focus { border-color: var(--border2); }
+input[type="email"]::placeholder { color: var(--gray1); }
+
+/* SKILL TAG SECTION */
+.skills-section { margin-bottom: 16px; }
+.skills-section-label { font-size: 12px; color: var(--gray2); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
+.chips-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* ════════════════════════════════════════
+   LOGO SVG INLINE
+════════════════════════════════════════ */
+</style>
+</head>
+<body>
+
+<div id="phone">
+
+<!-- ══ TOAST ══════════════════════════════ -->
+<div id="toast-container"><div id="toast" class="toast"></div></div>
+
+<!-- ══ GAP BOTTOM SHEET ══════════════════ -->
+<div class="sheet-backdrop" id="gap-backdrop" onclick="closeGapSheet()">
+  <div class="bottom-sheet" id="gap-sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div class="sheet-close" onclick="closeGapSheet()">✕</div>
+    <div id="gap-title" class="t-h2" style="margin-bottom:6px;padding-right:40px"></div>
+    <div class="t-sm" style="margin-bottom:20px">How do you want to close this gap?</div>
+    <div style="display:flex;gap:10px">
+      <div style="flex:1">
+        <div class="card" style="cursor:pointer;text-align:center" onclick="toggleExpand('course-list')">
+          <div style="font-size:24px;margin-bottom:8px">📚</div>
+          <div class="t-h3" style="margin-bottom:4px">Take a course</div>
+          <div class="t-sm">Accredited · adds to CV</div>
+        </div>
+        <div class="course-expand" id="course-list"></div>
+      </div>
+      <div style="flex:1">
+        <div class="card" style="cursor:pointer;text-align:center" onclick="toggleExpand('project-list')">
+          <div style="font-size:24px;margin-bottom:8px">🛠</div>
+          <div class="t-h3" style="margin-bottom:4px">Micro-project</div>
+          <div class="t-sm">Build something real</div>
+        </div>
+        <div class="course-expand" id="project-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN: onboarding-welcome ════════ -->
+<div class="screen" id="s-welcome">
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;text-align:center;gap:0">
+    <div style="margin-bottom:24px">
+      <svg class="logo-svg" width="72" height="72" viewBox="0 0 200 200">
+        <rect x="20" y="70" width="160" height="115" rx="16" fill="none" stroke="currentColor" stroke-width="9"/>
+        <path d="M70 70L70 52Q70 36 86 36L114 36Q130 36 130 52L130 70" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+        <line x1="20" y1="110" x2="180" y2="110" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="100" cy="138" r="22" fill="currentColor"/>
+        <polyline points="89,138 97,147 113,129" fill="none" stroke="#0A0A0A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="t-hero" style="margin-bottom:6px">Klar<span style="color:var(--gray1)">4</span>Jobb</div>
+    <div style="font-size:16px;color:var(--gray2);font-style:italic;margin-bottom:40px;line-height:1.5">Your job-readiness companion<br>for Norway</div>
+    <div style="display:flex;gap:8px;margin-bottom:48px;flex-wrap:wrap;justify-content:center">
+      <span class="chip chip-gray">🇳🇴 Norway</span>
+      <span class="chip chip-gray">🎯 AI matching</span>
+      <span class="chip chip-gray">✅ Checklist</span>
+    </div>
+    <div style="width:100%;display:flex;flex-direction:column;gap:12px">
+      <button class="btn-primary" onclick="goScreen('s-onboard-cv')">Get started</button>
+      <button class="btn-outline" onclick="toast('Login coming soon!')">I already have an account</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN: onboard-cv ═══════════════ -->
+<div class="screen" id="s-onboard-cv">
+  <div class="scroll-content flex-col" style="gap:20px;flex:1">
+    <div style="padding-top:12px">
+      <div class="progress-dots" style="margin-bottom:24px">
+        <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <div class="t-h1" style="margin-bottom:8px">Let's start with<br>your CV</div>
+      <div class="t-sm">We'll map your skills to Norwegian job standards (STYRK-08)</div>
+    </div>
+    <div id="upload-zone" onclick="simulateUpload()" style="border:1.5px dashed var(--border2);border-radius:var(--r-lg);padding:32px 20px;text-align:center;cursor:pointer;transition:border-color 0.15s" ontouchstart="this.style.borderColor='var(--border2)'" onmouseenter="this.style.borderColor='var(--gray2)'" onmouseleave="this.style.borderColor='var(--border2)'">
+      <div id="upload-icon" style="margin-bottom:12px">
+        <svg width="40" height="40" viewBox="0 0 200 200" style="color:var(--gray2)">
+          <rect x="20" y="70" width="160" height="115" rx="16" fill="none" stroke="currentColor" stroke-width="9"/>
+          <path d="M70 70L70 52Q70 36 86 36L114 36Q130 36 130 52L130 70" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+          <line x1="20" y1="110" x2="180" y2="110" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="100" cy="138" r="22" fill="currentColor"/>
+          <polyline points="89,138 97,147 113,129" fill="none" stroke="#0A0A0A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div id="upload-label" class="t-h3" style="margin-bottom:6px">Upload your CV</div>
+      <div id="upload-sub" class="t-sm">PDF or Word · Your data stays private</div>
+    </div>
+    <div id="upload-result" style="display:none" class="card flex-row" style="align-items:center;gap:12px">
+      <span style="font-size:20px">📄</span>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600;margin-bottom:2px">Amara_Okafor_CV.pdf</div>
+        <div style="font-size:12px;color:var(--green-light)">✓ AI analysis complete — 4 matches found</div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:20px;padding-bottom:36px">
+    <button class="btn-primary" onclick="goScreen('s-onboard-checklist')">Continue →</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: onboard-checklist ═════════ -->
+<div class="screen" id="s-onboard-checklist">
+  <div class="scroll-content flex-col" style="gap:0;flex:1">
+    <div style="padding-top:12px;margin-bottom:20px">
+      <div class="progress-dots" style="margin-bottom:24px">
+        <div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <div class="t-h1" style="margin-bottom:8px">Norwegian essentials</div>
+      <div class="t-sm">Tick what you already have — we'll guide the rest</div>
+    </div>
+
+    <div id="onboard-sections">
+      <!-- Sections generated by JS -->
+    </div>
+  </div>
+  <div style="padding:20px;padding-bottom:36px">
+    <button class="btn-primary" onclick="goScreen('s-onboard-role')">Continue →</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: onboard-role ══════════════ -->
+<div class="screen" id="s-onboard-role">
+  <div class="scroll-content flex-col" style="gap:12px;flex:1">
+    <div style="padding-top:12px;margin-bottom:4px">
+      <div class="progress-dots" style="margin-bottom:24px">
+        <div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div>
+      </div>
+      <div class="t-h1" style="margin-bottom:8px">Which role are you<br>aiming for?</div>
+      <div class="t-sm">Based on your CV — here are your Norwegian matches</div>
+    </div>
+    <div id="role-cards" class="flex-col" style="gap:10px"></div>
+  </div>
+  <div style="padding:20px;padding-bottom:36px">
+    <button class="btn-primary" onclick="goScreen('s-onboard-summary')">Continue →</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: onboard-summary ═══════════ -->
+<div class="screen" id="s-onboard-summary">
+  <div class="scroll-content flex-col" style="gap:20px;flex:1">
+    <div style="padding-top:12px">
+      <div class="progress-dots" style="margin-bottom:24px">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div>
+      </div>
+      <div class="t-h1" style="margin-bottom:4px">Looking good, Amara</div>
+      <div class="t-sm">Here's what we found</div>
+    </div>
+    <div style="text-align:center">
+      <div class="avatar" style="width:64px;height:64px;font-size:20px;margin:0 auto 10px">AO</div>
+      <div style="font-weight:600;font-size:16px">Amara Okafor</div>
+      <div class="t-sm">IT-rådgiver track · Oslo</div>
+    </div>
+    <div class="skills-section">
+      <div class="skills-section-label">Skills you have</div>
+      <div class="chips-wrap">
+        <span class="chip chip-green">✓ ITIL</span>
+        <span class="chip chip-green">✓ Agile/Scrum</span>
+        <span class="chip chip-green">✓ ERP/CRM</span>
+        <span class="chip chip-green">✓ Network solutions</span>
+        <span class="chip chip-green">✓ DAM/GPIM</span>
+        <span class="chip chip-green">✓ Digital transformation</span>
+        <span class="chip chip-green">✓ Stakeholder mgmt</span>
+        <span class="chip chip-green">✓ Technical documentation</span>
+      </div>
+    </div>
+    <div class="skills-section">
+      <div class="skills-section-label">Skills to build</div>
+      <div class="chips-wrap">
+        <span class="chip chip-amber">Norwegian B2</span>
+        <span class="chip chip-amber">Azure/AWS cert</span>
+        <span class="chip chip-amber">Product roadmap</span>
+        <span class="chip chip-amber">CSPO/PO cert</span>
+      </div>
+    </div>
+  </div>
+  <div style="padding:20px;padding-bottom:36px">
+    <button class="btn-primary" onclick="startJourney()">Start my journey →</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: dashboard ═════════════════ -->
+<div class="screen" id="s-dashboard">
+  <div class="top-bar">
+    <svg class="logo-svg" width="28" height="28" viewBox="0 0 200 200">
+      <rect x="20" y="70" width="160" height="115" rx="16" fill="none" stroke="currentColor" stroke-width="12"/>
+      <path d="M70 70L70 52Q70 36 86 36L114 36Q130 36 130 52L130 70" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+      <line x1="20" y1="110" x2="180" y2="110" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+      <circle cx="100" cy="138" r="22" fill="currentColor"/>
+      <polyline points="89,138 97,147 113,129" fill="none" stroke="#0A0A0A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div style="font-size:16px;font-weight:600">Hei, Amara 👋</div>
+    <div class="avatar">AO</div>
+  </div>
+  <div class="scroll-content flex-col" style="gap:20px;padding-bottom:10px">
+
+    <!-- Donut -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px" onclick="goScreen('s-stats')">
+      <div class="donut-wrap">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="54" fill="none" stroke="var(--surface2)" stroke-width="12"/>
+          <circle cx="80" cy="80" r="54" fill="none" stroke="var(--white)" stroke-width="12"
+            stroke-dasharray="135.7 338.6" stroke-dashoffset="84.65" stroke-linecap="round"
+            transform="rotate(-90 80 80)"/>
+        </svg>
+        <div class="donut-center">
+          <div class="t-num" style="font-size:32px;line-height:1">40%</div>
+          <div class="t-xs" style="margin-top:2px">job-ready</div>
+        </div>
+      </div>
+      <div class="t-sm" style="color:var(--gray1);font-size:12px">Tap for full stats →</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center">
+        <span class="chip chip-gray" style="font-size:11px">Admin 50%</span>
+        <span class="chip chip-gray" style="font-size:11px">Profile 17%</span>
+        <span class="chip chip-gray" style="font-size:11px">Upskilling 0%</span>
+        <span class="chip chip-gray" style="font-size:11px;opacity:0.5">🔒 Network</span>
+      </div>
+    </div>
+
+    <!-- Next up -->
+    <div class="card" style="cursor:pointer;display:flex;align-items:center;gap:14px" onclick="goScreen('s-item-nav')">
+      <div style="flex:1">
+        <div class="t-xs" style="margin-bottom:6px">Next up</div>
+        <div class="t-h3" style="margin-bottom:4px">Register with NAV</div>
+        <div class="t-sm">~10 min · Requires BankID</div>
+      </div>
+      <div style="color:var(--gray2);font-size:20px">→</div>
+    </div>
+
+    <!-- My Journey -->
+    <div>
+      <div class="section-header">
+        <div class="t-h3">My Journey</div>
+        <span class="see-all" onclick="goScreen('s-checklist')">See all →</span>
+      </div>
+      <div class="card flex-col" style="gap:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <span style="font-size:13px;font-weight:600">Admin</span>
+          <span class="t-sm">4 / 8</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:50%"></div></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+          <span class="chip chip-green" style="font-size:12px">✓ LinkedIn</span>
+          <span class="chip chip-green" style="font-size:12px">✓ BankID</span>
+          <span class="chip chip-gray" style="font-size:12px">Register with NAV</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Match -->
+    <div>
+      <div class="section-header">
+        <div class="t-h3">My Match</div>
+        <span class="see-all" onclick="goScreen('s-skills-mapper')">See all →</span>
+      </div>
+      <div class="match-card best" onclick="openMatch('it-radgiver')">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <span class="badge badge-green" style="font-size:10px">⭐ Best match</span>
+          <span style="font-family:var(--font-head);font-size:22px;font-weight:800">84%</span>
+        </div>
+        <div class="t-h3" style="margin-bottom:4px">IT-rådgiver</div>
+        <div class="t-sm" style="margin-bottom:10px">STYRK 2511 · Oslo</div>
+        <div class="progress-track"><div class="progress-fill" style="width:84%"></div></div>
+      </div>
+    </div>
+
+    <!-- My Network -->
+    <div>
+      <div class="section-header">
+        <div class="t-h3">My Network</div>
+        <span class="badge badge-gray" style="font-size:10px">Coming soon</span>
+      </div>
+      <div style="display:flex;gap:10px">
+        <div class="card locked" style="flex:1;cursor:pointer" onclick="goScreen('s-network')">
+          <div style="font-size:20px;margin-bottom:6px">🤝</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:2px">Mentor matching</div>
+          <div class="t-sm" style="font-size:11px">Norwegian pro in your field</div>
+        </div>
+        <div class="card locked" style="flex:1;cursor:pointer" onclick="goScreen('s-network')">
+          <div style="font-size:20px;margin-bottom:6px">👥</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:2px">Peer cohort</div>
+          <div class="t-sm" style="font-size:11px">8–12 people, same stage</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:8px"></div>
+  </div>
+  <div class="bottom-nav">
+    <button class="nav-btn active" onclick="goScreen('s-dashboard')">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">Home</div>
+      <div class="nav-dot"></div>
+    </button>
+    <button class="nav-btn" onclick="goScreen('s-skills-mapper')">
+      <div class="nav-icon">◉</div>
+      <div class="nav-label">My Match</div>
+    </button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: stats ══════════════════════ -->
+<div class="screen" id="s-stats">
+  <div class="top-bar">
+    <div class="back-btn" onclick="goBack('s-dashboard')">←</div>
+    <div style="font-size:16px;font-weight:600">Your progress</div>
+    <div style="width:36px"></div>
+  </div>
+  <div class="scroll-content flex-col" style="gap:20px;padding-bottom:30px">
+    <div style="text-align:center;padding:8px 0">
+      <span class="badge badge-amber" style="font-size:11px;margin-bottom:12px;display:inline-block">⚡ Level 2 — Newcomer Pro</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <span class="t-sm">XP Progress</span>
+        <span style="font-size:13px;font-weight:600;color:var(--amber-light)">2,400 / 5,000</span>
+      </div>
+      <div class="progress-track" style="height:8px;margin-bottom:6px"><div class="progress-fill amber" style="width:48%"></div></div>
+      <div class="t-sm" style="font-size:12px">1,600 XP to Level 3 — Rising Professional</div>
+    </div>
+
+    <!-- 2x2 stat grid -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="stat-card">
+        <div style="font-size:18px;margin-bottom:4px">🏛</div>
+        <div class="stat-num">50%</div>
+        <div style="font-size:13px;font-weight:600;margin:4px 0 2px">Admin</div>
+        <div class="t-sm" style="font-size:12px">4/8 complete</div>
+        <div style="font-size:11px;color:var(--amber-light);margin-top:4px">+200 XP earned</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:18px;margin-bottom:4px">👤</div>
+        <div class="stat-num">17%</div>
+        <div style="font-size:13px;font-weight:600;margin:4px 0 2px">Profile</div>
+        <div class="t-sm" style="font-size:12px">1/6 complete</div>
+        <div style="font-size:11px;color:var(--amber-light);margin-top:4px">+50 XP earned</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:18px;margin-bottom:4px">📚</div>
+        <div class="stat-num">0%</div>
+        <div style="font-size:13px;font-weight:600;margin:4px 0 2px">Upskilling</div>
+        <div class="t-sm" style="font-size:12px">0/5 complete</div>
+        <div style="font-size:11px;color:var(--gray1);margin-top:4px">0 XP earned</div>
+      </div>
+      <div class="stat-card" style="opacity:0.45">
+        <div style="font-size:18px;margin-bottom:4px">🤝</div>
+        <div class="stat-num" style="font-size:22px;color:var(--gray2)">🔒</div>
+        <div style="font-size:13px;font-weight:600;margin:4px 0 2px">Network</div>
+        <div class="t-sm" style="font-size:12px">Coming in v2</div>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div>
+      <div class="t-h3" style="margin-bottom:12px">Badges</div>
+      <div class="badge-scroll">
+        <div class="badge-item"><div class="badge-icon">📄</div><div class="badge-lbl">CV Uploaded</div></div>
+        <div class="badge-item"><div class="badge-icon earned">✅</div><div class="badge-lbl" style="color:var(--white)">LinkedIn</div></div>
+        <div class="badge-item"><div class="badge-icon earned">🏦</div><div class="badge-lbl" style="color:var(--white)">BankID</div></div>
+        <div class="badge-item"><div class="badge-icon">🏛</div><div class="badge-lbl">NAV Reg.</div></div>
+        <div class="badge-item"><div class="badge-icon">🎯</div><div class="badge-lbl">First Match</div></div>
+        <div class="badge-item"><div class="badge-icon">⚡</div><div class="badge-lbl">Gap Closed</div></div>
+      </div>
+    </div>
+
+    <!-- Match score -->
+    <div class="card">
+      <div class="t-xs" style="margin-bottom:10px">Best match</div>
+      <div class="t-h3" style="margin-bottom:8px">IT-rådgiver / Digitaliseringsrådgiver</div>
+      <div class="progress-track" style="margin-bottom:8px"><div class="progress-fill" style="width:84%"></div></div>
+      <div style="display:flex;justify-content:space-between">
+        <span class="t-sm">8 skills matched</span>
+        <span class="t-sm">4 gaps remaining</span>
+      </div>
+    </div>
+
+    <!-- Milestone timeline -->
+    <div>
+      <div class="t-h3" style="margin-bottom:12px">Your milestones</div>
+      <div class="flex-col" style="gap:0">
+        <div class="milestone"><div class="milestone-dot done">✓</div><div><div style="font-size:14px;font-weight:600">Week 1 — Profile setup</div><div class="t-sm" style="font-size:12px">CV uploaded · goal set</div></div></div>
+        <div class="milestone-line"></div>
+        <div class="milestone"><div class="milestone-dot done">✓</div><div><div style="font-size:14px;font-weight:600">Week 2 — CV analysed</div><div class="t-sm" style="font-size:12px">4 matches found</div></div></div>
+        <div class="milestone-line"></div>
+        <div class="milestone"><div class="milestone-dot current"></div><div><div style="font-size:14px;font-weight:600">Week 3 — Complete Admin</div><div style="font-size:12px;color:var(--amber-light)">← You are here</div></div></div>
+        <div class="milestone-line"></div>
+        <div class="milestone"><div class="milestone-dot future"></div><div style="opacity:0.5"><div style="font-size:14px;font-weight:600">Week 4 — First application</div><div class="t-sm" style="font-size:12px">Apply to IT-rådgiver roles</div></div></div>
+        <div class="milestone-line"></div>
+        <div class="milestone"><div class="milestone-dot future"></div><div style="opacity:0.5"><div style="font-size:14px;font-weight:600">Week 6 — Network launch</div><div class="t-sm" style="font-size:12px">Mentor matching opens</div></div></div>
+      </div>
+    </div>
+
+    <button class="btn-outline" onclick="goBack('s-dashboard')">← Back to dashboard</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: checklist ══════════════════ -->
+<div class="screen" id="s-checklist">
+  <div class="top-bar">
+    <div class="back-btn" onclick="goBack('s-dashboard')">←</div>
+    <div style="font-size:16px;font-weight:600">My Journey</div>
+    <svg class="logo-svg" width="24" height="24" viewBox="0 0 200 200">
+      <rect x="20" y="70" width="160" height="115" rx="16" fill="none" stroke="currentColor" stroke-width="12"/>
+      <path d="M70 70L70 52Q70 36 86 36L114 36Q130 36 130 52L130 70" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+      <line x1="20" y1="110" x2="180" y2="110" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+      <circle cx="100" cy="138" r="22" fill="currentColor"/>
+      <polyline points="89,138 97,147 113,129" fill="none" stroke="#0A0A0A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <div style="padding:16px 20px 0;flex-shrink:0">
+    <div class="tab-bar" id="checklist-tabs">
+      <button class="tab-pill active" onclick="switchTab('admin')">Admin 50%</button>
+      <button class="tab-pill" onclick="switchTab('profile')">Profile 17%</button>
+      <button class="tab-pill" onclick="switchTab('upskilling')">Upskilling 0%</button>
+      <button class="tab-pill" onclick="switchTab('network')">Network 🔒</button>
+    </div>
+    <div style="margin-top:14px;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between">
+      <span id="checklist-count" class="t-sm"></span>
+    </div>
+    <div class="progress-track" style="margin-bottom:0"><div class="progress-fill" id="checklist-progress" style="width:0%"></div></div>
+  </div>
+  <div class="scroll-content" id="checklist-items" style="padding-top:4px;flex:1"></div>
+</div>
+
+<!-- ══ SCREEN: item-nav ═══════════════════ -->
+<div class="screen" id="s-item-nav">
+  <div class="top-bar">
+    <div class="back-btn" onclick="goBack('s-checklist')">←</div>
+    <div style="font-size:15px;font-weight:600">Register with NAV</div>
+    <div style="width:36px"></div>
+  </div>
+  <div class="scroll-content flex-col" style="gap:12px;flex:1">
+    <div class="info-card">
+      <div class="info-card-label">Why it matters</div>
+      <div class="t-body">NAV (Arbeids- og velferdsetaten) is Norway's labour and welfare agency. Registering unlocks job alerts, career guidance, and eligibility for integration support. It puts you in a recruiter-searchable database used by Norwegian employers.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Good to know</div>
+      <div class="t-body">Takes ~10 minutes. Requires BankID. Available in Norwegian and English. Mandatory step for accessing integration support programmes.</div>
+    </div>
+  </div>
+  <div style="padding:20px;flex-direction:column;display:flex;gap:10px;padding-bottom:40px">
+    <button class="btn-primary" onclick="toast('Opening NAV registration...')">Go to NAV →</button>
+    <button class="btn-outline" id="nav-done-btn" onclick="markDone('nav','nav-done-btn')">Mark as done ✓</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: item-hkdir ════════════════ -->
+<div class="screen" id="s-item-hkdir">
+  <div class="top-bar">
+    <div class="back-btn" onclick="goBack('s-checklist')">←</div>
+    <div style="font-size:15px;font-weight:600">HK-Dir Recognition</div>
+    <div style="width:36px"></div>
+  </div>
+  <div class="scroll-content flex-col" style="gap:12px;flex:1">
+    <div class="info-card">
+      <div class="info-card-label">Why it matters</div>
+      <div class="t-body">HK-Dir (Direktoratet for høyere utdanning og kompetanse) evaluates your foreign education so Norwegian employers can understand its level. The result — <em style="color:var(--white)">"Godkjent"</em> — is attached to your professional profile and CV.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Good to know</div>
+      <div class="t-body">Apply early — approval can take up to 18 months. Optional for non-regulated roles but strongly recommended for IT and management positions in Norway.</div>
+    </div>
+  </div>
+  <div style="padding:20px;flex-direction:column;display:flex;gap:10px;padding-bottom:40px">
+    <button class="btn-primary" onclick="toast('Opening HK-Dir...')">Go to HK-Dir →</button>
+    <button class="btn-outline" id="hkdir-done-btn" onclick="markDone('hkdir','hkdir-done-btn')">Mark as done ✓</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: skills-mapper ═════════════ -->
+<div class="screen" id="s-skills-mapper">
+  <div class="top-bar">
+    <svg class="logo-svg" width="24" height="24" viewBox="0 0 200 200">
+      <rect x="20" y="70" width="160" height="115" rx="16" fill="none" stroke="currentColor" stroke-width="12"/>
+      <path d="M70 70L70 52Q70 36 86 36L114 36Q130 36 130 52L130 70" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+      <line x1="20" y1="110" x2="180" y2="110" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+      <circle cx="100" cy="138" r="22" fill="currentColor"/>
+      <polyline points="89,138 97,147 113,129" fill="none" stroke="#0A0A0A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div style="font-size:16px;font-weight:600">My Match</div>
+    <div class="avatar">AO</div>
+  </div>
+  <div class="scroll-content flex-col" style="gap:16px;padding-bottom:10px">
+    <div id="mapper-upload" onclick="simulateUpload2()" style="border:1.5px dashed var(--border2);border-radius:var(--r-lg);padding:24px 20px;text-align:center;cursor:pointer">
+      <div style="font-size:32px;margin-bottom:8px">📄</div>
+      <div style="font-size:15px;font-weight:600;margin-bottom:4px" id="mapper-upload-label">Upload your CV</div>
+      <div class="t-sm" id="mapper-upload-sub">Your data stays private</div>
+    </div>
+    <div id="match-cards" class="flex-col" style="gap:10px"></div>
+    <div style="height:8px"></div>
+  </div>
+  <div class="bottom-nav">
+    <button class="nav-btn" onclick="goScreen('s-dashboard')">
+      <div class="nav-icon">🏠</div><div class="nav-label">Home</div>
+    </button>
+    <button class="nav-btn active" onclick="goScreen('s-skills-mapper')">
+      <div class="nav-icon">◉</div><div class="nav-label">My Match</div>
+      <div class="nav-dot"></div>
+    </button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: job-detail ════════════════ -->
+<div class="screen" id="s-job-detail">
+  <div class="top-bar">
+    <div class="back-btn" onclick="goBack('s-skills-mapper')">←</div>
+    <div style="font-size:14px;font-weight:600" id="jd-title">IT-rådgiver</div>
+    <span class="badge badge-gray" id="jd-styrk" style="font-size:10px">STYRK 2511</span>
+  </div>
+  <div class="scroll-content flex-col" style="gap:16px;flex:1;padding-bottom:20px">
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div class="t-sm">Match score</div>
+        <div style="font-family:var(--font-head);font-size:22px;font-weight:800" id="jd-pct">84%</div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="jd-bar" style="width:84%"></div></div>
+    </div>
+    <div class="info-card" id="jd-desc"></div>
+    <div>
+      <div class="skills-section-label">Skills you have</div>
+      <div class="chips-wrap" id="jd-have"></div>
+    </div>
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div class="skills-section-label" style="margin-bottom:0">Skill gaps</div>
+        <span class="t-sm" id="jd-gap-count"></span>
+      </div>
+      <div class="flex-col" style="gap:8px" id="jd-gaps"></div>
+    </div>
+  </div>
+  <div style="padding:20px;padding-bottom:40px">
+    <button class="btn-primary" onclick="toast('Opening job listings...')">Apply to jobs →</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: network ═══════════════════ -->
+<div class="screen" id="s-network">
+  <div class="top-bar">
+    <div class="back-btn" onclick="goBack('s-dashboard')">←</div>
+    <div style="font-size:16px;font-weight:600">Network & Mentors</div>
+    <div style="width:36px"></div>
+  </div>
+  <div class="scroll-content flex-col" style="gap:20px;align-items:center;text-align:center;padding-top:32px;flex:1">
+    <div style="font-size:52px;animation:lock-pulse 2.5s infinite" class="lock-pulse">🔒</div>
+    <span class="badge badge-gray">Coming Soon</span>
+    <div>
+      <div class="t-h1" style="margin-bottom:10px">Build your<br>Norwegian network</div>
+      <div class="t-body" style="max-width:300px;margin:0 auto">Get matched with a Norwegian professional in your field. Peer cohort of 8–12 people, same career stage.</div>
+    </div>
+    <div style="width:100%;flex-direction:column;display:flex;gap:10px" id="waitlist-form">
+      <input type="email" id="waitlist-email" placeholder="your@email.com">
+      <button class="btn-primary" onclick="joinWaitlist()">Join the waitlist</button>
+    </div>
+    <div style="display:flex;gap:10px;width:100%;opacity:0.4">
+      <div class="card" style="flex:1;text-align:left;pointer-events:none">
+        <div style="font-size:18px;margin-bottom:6px">🤝</div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:2px">Mentor matching</div>
+        <div class="t-sm" style="font-size:11px">Norwegian IT professional</div>
+      </div>
+      <div class="card" style="flex:1;text-align:left;pointer-events:none">
+        <div style="font-size:18px;margin-bottom:6px">👥</div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:2px">Peer cohort</div>
+        <div class="t-sm" style="font-size:11px">8–12 people, IT/PM track</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ JS ══════════════════════════════════════ -->
+<script>
+// ── STATE ──────────────────────────────────────
+const state = {
+  history: ['s-welcome'],
+  currentTab: 'admin',
+  cvUploaded: false,
+  currentMatchId: 'it-radgiver',
+  checklist: {
+    admin: { pct: 50, done: 4, total: 8, items: [
+      { id:'li', label:'LinkedIn', done:true },
+      { id:'dnum', label:'D-number / National ID', done:true },
+      { id:'bank', label:'Bank account + BankID', done:true },
+      { id:'folk', label:'Folkeregisteret', done:true },
+      { id:'nav', label:'Register with NAV', done:false, screen:'s-item-nav' },
+      { id:'reg', label:'Check regulated profession', done:false },
+      { id:'hkdir', label:'Apply for HK-Dir recognition', done:false, screen:'s-item-hkdir' },
+      { id:'docs', label:'Gather + translate documents', done:false }
+    ]},
+    profile: { pct: 17, done: 1, total: 6, items: [
+      { id:'lip', label:'LinkedIn profile', done:true },
+      { id:'cvup', label:'Upload CV to Klar4Jobb', done:false },
+      { id:'arb', label:'Register on Arbeidsplassen.no', done:false },
+      { id:'nocv', label:'Write Norwegian-style CV', done:false },
+      { id:'cov', label:'Write cover letter template', done:false },
+      { id:'port', label:'Build portfolio / work samples', done:false }
+    ]},
+    upskilling: { pct: 0, done: 0, total: 5, items: [
+      { id:'gapr', label:'Complete skill gap review', done:false },
+      { id:'norw', label:'Begin Norwegian B2 course', done:false },
+      { id:'micro', label:'Complete one micro-project', done:false },
+      { id:'crs', label:'Start course for top skill gap', done:false },
+      { id:'upd', label:'Update Skills Mapper after course', done:false }
+    ]}
+  },
+  matches: [
+    { id:'it-radgiver', title:'IT-rådgiver / Digitaliseringsrådgiver', styrk:'2511', pct:84, tag:'BEST MATCH', tagClass:'badge-green',
+      desc:'Strategic IT advisory and digital transformation — aligns technical solutions with Norwegian business goals.',
+      have:['ITIL','Agile/Scrum','ERP/CRM','Network solutions','DAM/GPIM','Digital transformation','Stakeholder mgmt','Technical docs'],
+      gaps:[{name:'Norwegian B2',time:'~6 mo'},{name:'Azure/AWS cert',time:'~3 mo'},{name:'Product roadmap',time:'~2 mo'},{name:'CSPO/PO cert',time:'~3 mo'}]
+    },
+    { id:'sales', title:'Teknisk salgsrådgiver', styrk:'3322', pct:79, tag:null, tagClass:null,
+      desc:'Technical sales advisory — leveraging your ERP/CRM expertise and 5.5yr history to drive B2B solutions.',
+      have:['ERP/CRM','Stakeholder mgmt','Technical docs','Network solutions'],
+      gaps:[{name:'Norwegian B2',time:'~6 mo'},{name:'Azure/AWS cert',time:'~3 mo'},{name:'Norwegian sales cert',time:'~2 mo'}]
+    },
+    { id:'sysdev', title:'Systemutvikler / IT-analytiker', styrk:'2512', pct:68, tag:null, tagClass:null,
+      desc:'Systems development and IT analysis — adjacent role building on your Agile and technical documentation skills.',
+      have:['Agile/Scrum','Technical docs','ITIL'],
+      gaps:[{name:'Norwegian B2',time:'~6 mo'},{name:'Azure/AWS cert',time:'~3 mo'},{name:'Python / scripting',time:'~4 mo'}]
+    },
+    { id:'pm', title:'Produktansvarlig / Product Manager', styrk:'1219', pct:51, tag:'AMBITION ROLE', tagClass:'badge-amber',
+      desc:'Product management — your ambition role. Leverages your Agile and stakeholder skills with a roadmap to bridge the gap.',
+      have:['Agile/Scrum','Stakeholder mgmt','Digital transformation'],
+      gaps:[{name:'Norwegian B2',time:'~6 mo'},{name:'CSPO/PO cert',time:'~3 mo'},{name:'Product roadmap ownership',time:'~2 mo'},{name:'Azure/AWS cert',time:'~3 mo'}]
+    }
+  ],
+  gapCourses: {
+    'Norwegian B2': [{name:'Kompetanse Norge',time:'Free/subsidised'},{name:'Nettskolen',time:'Self-paced'},{name:'Duolingo Plus',time:'Daily practice'}],
+    'Azure/AWS cert': [{name:'AWS Training Portal',time:'~40 hrs'},{name:'A Cloud Guru',time:'~30 hrs'},{name:'Coursera AWS',time:'~25 hrs'}],
+    'Product roadmap': [{name:'Product School',time:'~20 hrs'},{name:'Coursera PM cert',time:'~30 hrs'}],
+    'CSPO/PO cert': [{name:'Scrum.org',time:'2-day course'},{name:'BI Norwegian',time:'~40 hrs'}],
+    'Norwegian sales cert': [{name:'NHO Kurs',time:'~16 hrs'}],
+    'Python / scripting': [{name:'Codecademy Python',time:'~25 hrs'},{name:'freeCodeCamp',time:'Free'}],
+    'Product roadmap ownership': [{name:'Product School',time:'~20 hrs'},{name:'Coursera PM cert',time:'~30 hrs'}]
+  },
+  gapProjects: {
+    'Norwegian B2': ['30-day conversation log','Write your CV in Norwegian','LinkedIn in Norwegian'],
+    'Azure/AWS cert': ['Deploy a web app to AWS','Cloud cost analysis case study'],
+    'Product roadmap': ['Roadmap for a B2B SaaS tool','Prioritise features using RICE'],
+    'CSPO/PO cert': ['Write a product backlog','Run a mock sprint planning'],
+    'Norwegian sales cert': ['B2B prospect analysis for a Norwegian company'],
+    'Python / scripting': ['Automate a NAV checklist tracker','Build a CV parser in Python'],
+    'Product roadmap ownership': ['Roadmap for a B2B SaaS tool','Prioritise features using RICE']
+  }
+};
+
+// ── NAVIGATION ─────────────────────────────────
+function goScreen(id) {
+  const prev = document.querySelector('.screen.active');
+  if (prev) { prev.classList.remove('visible'); setTimeout(() => { prev.classList.remove('active'); }, 200); }
+  const next = document.getElementById(id);
+  if (!next) return;
+  next.classList.add('active');
+  next.scrollTop = 0;
+  setTimeout(() => next.classList.add('visible'), 10);
+  if (state.history[state.history.length-1] !== id) state.history.push(id);
+  if (id === 's-checklist') renderChecklist();
+  if (id === 's-skills-mapper') renderMatchCards();
+  if (id === 's-onboard-checklist') renderOnboardChecklist();
+  if (id === 's-onboard-role') renderRoleCards();
+}
+
+function goBack(fallback) {
+  state.history.pop();
+  const prev = state.history[state.history.length-1] || fallback;
+  const active = document.querySelector('.screen.active');
+  if (active) { active.classList.remove('visible'); setTimeout(() => { active.classList.remove('active'); }, 200); }
+  const next = document.getElementById(prev);
+  if (!next) return;
+  next.classList.add('active');
+  setTimeout(() => next.classList.add('visible'), 10);
+  if (prev === 's-checklist') renderChecklist();
+  if (prev === 's-skills-mapper') renderMatchCards();
+}
+
+// ── TOAST ──────────────────────────────────────
+function toast(msg, dur=2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+
+// ── ONBOARDING ─────────────────────────────────
+const onboardSections = [
+  { label:'Identity & Legal', items:['D-number / National ID','Folkeregisteret registration','Work permit (EU/EEA)'] },
+  { label:'Banking & Digital', items:['Norwegian bank account','BankID (digital identity)'] },
+  { label:'Professional', items:['LinkedIn profile (Norwegian style)','Arbeidsplassen.no registration','HK-Dir credential recognition'] },
+  { label:'Language', items:['Norwegian language level'] }
+];
+const onboardState = {};
+
+function renderOnboardChecklist() {
+  const el = document.getElementById('onboard-sections');
+  el.innerHTML = '';
+  onboardSections.forEach(sec => {
+    const secDiv = document.createElement('div');
+    secDiv.style.marginBottom = '20px';
+    const lbl = document.createElement('div');
+    lbl.className = 'skills-section-label';
+    lbl.textContent = sec.label;
+    secDiv.appendChild(lbl);
+    const list = document.createElement('div');
+    list.style.background = 'var(--surface)';
+    list.style.borderRadius = 'var(--r)';
+    list.style.padding = '0 16px';
+    sec.items.forEach(item => {
+      if (item === 'Norwegian language level') {
+        const row = document.createElement('div');
+        row.style.cssText = 'padding:14px 0;border-bottom:1px solid var(--border)';
+        row.innerHTML = `<div style="font-size:14px;font-weight:500;margin-bottom:8px;color:var(--gray3)">Norwegian language level</div>
+          <select onchange="state.langLevel=this.value" style="background:var(--surface2)">
+            <option value="">Select your level</option>
+            <option>A1 — Beginner</option><option>A2 — Elementary</option>
+            <option>B1 — Intermediate</option><option>B2 — Upper intermediate</option>
+            <option>C1 — Advanced</option><option>C2 — Proficient</option><option>Native</option>
+          </select>`;
+        row.style.borderBottom = 'none';
+        list.appendChild(row);
+        return;
+      }
+      const key = sec.label+'_'+item;
+      if (!onboardState[key]) onboardState[key] = false;
+      const row = document.createElement('div');
+      row.className = 'onboard-item';
+      row.innerHTML = `<div class="onboard-check ${onboardState[key]?'checked':''}" id="oc_${key.replace(/[^a-z0-9]/gi,'')}">${onboardState[key]?'✓':''}</div>
+        <div style="font-size:14px;color:var(--gray3)">${item}</div>`;
+      row.onclick = () => {
+        onboardState[key] = !onboardState[key];
+        const c = document.getElementById('oc_'+key.replace(/[^a-z0-9]/gi,''));
+        c.className = 'onboard-check'+(onboardState[key]?' checked':'');
+        c.textContent = onboardState[key] ? '✓' : '';
+      };
+      list.appendChild(row);
+    });
+    secDiv.appendChild(list);
+    el.appendChild(secDiv);
+  });
+}
+
+function renderRoleCards() {
+  const el = document.getElementById('role-cards');
+  el.innerHTML = '';
+  state.matches.forEach(m => {
+    const card = document.createElement('div');
+    card.className = `role-card ${m.id==='pm'?'ambition-role':''} ${state.currentMatchId===m.id?'selected':''}`;
+    card.onclick = () => { state.currentMatchId = m.id; renderRoleCards(); };
+    card.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="font-size:15px;font-weight:700">${m.title}</div>
+        ${m.tag ? `<span class="badge ${m.tagClass}" style="font-size:9px;margin-left:8px">${m.tag}</span>` : ''}
+      </div>
+      <div class="t-sm" style="margin-bottom:8px">STYRK ${m.styrk}</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="progress-track" style="flex:1"><div class="progress-fill${m.id==='pm'?' amber':''}" style="width:${m.pct}%"></div></div>
+        <div style="font-family:var(--font-head);font-size:18px;font-weight:800">${m.pct}%</div>
+      </div>`;
+    el.appendChild(card);
+  });
+}
+
+function simulateUpload() {
+  const lbl = document.getElementById('upload-label');
+  const sub = document.getElementById('upload-sub');
+  lbl.textContent = 'Analysing CV...';
+  sub.textContent = 'AI scanning your skills...';
+  setTimeout(() => {
+    state.cvUploaded = true;
+    document.getElementById('upload-zone').style.display = 'none';
+    const res = document.getElementById('upload-result');
+    res.style.display = 'flex'; res.style.alignItems = 'center'; res.style.gap = '12px';
+    toast('✓ 4 job matches found!');
+  }, 1500);
+}
+
+function startJourney() {
+  state.cvUploaded = true;
+  goScreen('s-dashboard');
+}
+
+// ── CHECKLIST ──────────────────────────────────
+function switchTab(tab) {
+  if (tab === 'network') { toast('Network coming in v2 🔒'); return; }
+  state.currentTab = tab;
+  document.querySelectorAll('.tab-pill').forEach((p,i) => {
+    const tabs = ['admin','profile','upskilling','network'];
+    p.classList.toggle('active', tabs[i] === tab);
+  });
+  renderChecklist();
+}
+
+function renderChecklist() {
+  const tab = state.checklist[state.currentTab];
+  if (!tab) return;
+  const count = document.getElementById('checklist-count');
+  const progress = document.getElementById('checklist-progress');
+  const items = document.getElementById('checklist-items');
+  count.textContent = `${tab.done} of ${tab.total} complete`;
+  setTimeout(() => { progress.style.width = tab.pct + '%'; }, 50);
+  items.innerHTML = '';
+  const list = document.createElement('div');
+  list.style.cssText = 'background:var(--surface);border-radius:var(--r);padding:0 18px;';
+  tab.items.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'check-item';
+    row.innerHTML = `
+      <div class="check-circle ${item.done?'done':''}">${item.done?'✓':''}</div>
+      <div class="check-label ${item.done?'done':''}" style="flex:1">${item.label}</div>
+      ${item.screen ? '<div class="check-arrow">›</div>' : ''}`;
+    row.onclick = () => {
+      if (item.screen) { goScreen(item.screen); return; }
+      item.done = !item.done;
+      tab.done = tab.items.filter(i=>i.done).length;
+      tab.pct = Math.round(tab.done/tab.total*100);
+      renderChecklist();
+      if (item.done) toast(`✓ ${item.label} — +25 XP`);
+    };
+    list.appendChild(row);
+  });
+  items.appendChild(list);
+}
+
+// ── SKILLS MAPPER ──────────────────────────────
+function renderMatchCards() {
+  const el = document.getElementById('match-cards');
+  el.innerHTML = '';
+  // Upload status
+  const upz = document.getElementById('mapper-upload');
+  const upl = document.getElementById('mapper-upload-label');
+  const ups = document.getElementById('mapper-upload-sub');
+  if (state.cvUploaded) {
+    upz.style.borderStyle = 'solid';
+    upz.style.borderColor = 'var(--border2)';
+    upz.querySelector('.\\33 2px').textContent = '📄';
+    upl.textContent = 'Amara_Okafor_CV.pdf';
+    ups.innerHTML = '<span style="color:var(--green-light)">✓ AI analysis complete</span>';
+  }
+  state.matches.forEach(m => {
+    const card = document.createElement('div');
+    card.className = `match-card ${m.id==='it-radgiver'?'best':''} ${m.id==='pm'?'ambition':''}`;
+    card.onclick = () => openMatch(m.id);
+    card.innerHTML = `
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px">
+        ${m.tag ? `<span class="badge ${m.tagClass}" style="font-size:10px">${m.id==='it-radgiver'?'⭐':m.id==='pm'?'🎯':''} ${m.tag}</span>` : '<div></div>'}
+        <div style="font-family:var(--font-head);font-size:24px;font-weight:800">${m.pct}%</div>
+      </div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:4px">${m.title}</div>
+      <div class="t-sm" style="margin-bottom:10px">STYRK ${m.styrk} · Oslo</div>
+      <div class="progress-track"><div class="progress-fill${m.id==='pm'?' amber':''}" style="width:${m.pct}%"></div></div>`;
+    el.appendChild(card);
+  });
+}
+
+function simulateUpload2() {
+  const lbl = document.getElementById('mapper-upload-label');
+  const sub = document.getElementById('mapper-upload-sub');
+  lbl.textContent = 'Analysing...';
+  sub.textContent = 'Scanning skills...';
+  setTimeout(() => {
+    state.cvUploaded = true;
+    lbl.textContent = 'Amara_Okafor_CV.pdf';
+    sub.innerHTML = '<span style="color:var(--green-light)">✓ AI analysis complete</span>';
+    toast('✓ 4 job matches found!');
+    renderMatchCards();
+  }, 1500);
+}
+
+function openMatch(id) {
+  state.currentMatchId = id;
+  const m = state.matches.find(x => x.id === id);
+  if (!m) return;
+  document.getElementById('jd-title').textContent = m.title.split('/')[0].trim();
+  document.getElementById('jd-styrk').textContent = 'STYRK ' + m.styrk;
+  document.getElementById('jd-pct').textContent = m.pct + '%';
+  document.getElementById('jd-bar').style.width = m.pct + '%';
+  document.getElementById('jd-bar').className = 'progress-fill' + (m.id==='pm'?' amber':'');
+  document.getElementById('jd-desc').innerHTML = `<div class="info-card-label">About this role</div><div class="t-body">${m.desc}</div>`;
+  const have = document.getElementById('jd-have');
+  have.innerHTML = m.have.map(s => `<span class="chip chip-green" style="font-size:12px">✓ ${s}</span>`).join('');
+  const gaps = document.getElementById('jd-gaps');
+  gaps.innerHTML = '';
+  document.getElementById('jd-gap-count').textContent = m.gaps.length + ' gaps to close';
+  m.gaps.forEach(g => {
+    const pill = document.createElement('div');
+    pill.className = 'gap-pill';
+    pill.innerHTML = `<span class="gap-pill-label">${g.name}</span><span class="gap-pill-time">${g.time} →</span>`;
+    pill.onclick = () => openGapSheet(g.name);
+    gaps.appendChild(pill);
+  });
+  goScreen('s-job-detail');
+}
+
+// ── GAP SHEET ──────────────────────────────────
+function openGapSheet(gapName) {
+  document.getElementById('gap-title').textContent = gapName;
+  const courses = state.gapCourses[gapName] || [{name:'Kompetanse Norge',time:'See website'},{name:'Coursera',time:'Online'}];
+  const projects = state.gapProjects[gapName] || ['Build a portfolio piece','Document your experience'];
+  const cl = document.getElementById('course-list');
+  const pl = document.getElementById('project-list');
+  cl.innerHTML = courses.map(c => `<div class="course-row" onclick="pickOption('course','${gapName}')"><span style="font-size:14px">${c.name}</span><span class="t-sm">${c.time} →</span></div>`).join('');
+  pl.innerHTML = projects.map(p => `<div class="course-row" onclick="pickOption('project','${gapName}')"><span style="font-size:14px;flex:1">${p}</span><span class="t-sm">→</span></div>`).join('');
+  cl.classList.remove('open'); pl.classList.remove('open');
+  const backdrop = document.getElementById('gap-backdrop');
+  const sheet = document.getElementById('gap-sheet');
+  backdrop.style.display = 'block';
+  requestAnimationFrame(() => { backdrop.classList.add('open'); sheet.classList.add('open'); });
+}
+
+function toggleExpand(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+function closeGapSheet() {
+  const backdrop = document.getElementById('gap-backdrop');
+  const sheet = document.getElementById('gap-sheet');
+  backdrop.classList.remove('open'); sheet.classList.remove('open');
+  setTimeout(() => { backdrop.style.display = 'none'; }, 280);
+}
+
+function pickOption(type, gapName) {
+  closeGapSheet();
+  setTimeout(() => toast(`✅ Added to your plan! Complete to earn XP`), 300);
+}
+
+// ── MARK DONE ──────────────────────────────────
+function markDone(id, btnId) {
+  const btn = document.getElementById(btnId);
+  btn.textContent = '✓ Done';
+  btn.disabled = true;
+  btn.style.opacity = '0.5';
+  toast('✓ Marked as done! +50 XP 🎉');
+  // Update checklist state
+  ['admin','profile','upskilling'].forEach(tab => {
+    state.checklist[tab].items.forEach(item => {
+      if (item.id === id) { item.done = true; }
+    });
+    state.checklist[tab].done = state.checklist[tab].items.filter(i=>i.done).length;
+    state.checklist[tab].pct = Math.round(state.checklist[tab].done/state.checklist[tab].total*100);
+  });
+}
+
+// ── NETWORK ────────────────────────────────────
+function joinWaitlist() {
+  const email = document.getElementById('waitlist-email').value;
+  if (!email || !email.includes('@')) { toast('Please enter a valid email'); return; }
+  document.getElementById('waitlist-form').innerHTML = `<div style="text-align:center;padding:20px 0"><div style="font-size:32px;margin-bottom:10px">✅</div><div style="font-size:16px;font-weight:600;margin-bottom:6px">You're on the list!</div><div class="t-sm">We'll notify you when Network launches.</div></div>`;
+  toast('✅ Waitlist joined!');
+}
+
+// ── INIT ───────────────────────────────────────
+goScreen('s-welcome');
+renderMatchCards();
+renderChecklist();
+</script>
+
+<!--
+╔══════════════════════════════════════════════════════╗
+║  DEPLOY INSTRUCTIONS                                 ║
+╠══════════════════════════════════════════════════════╣
+║                                                      ║
+║  GITHUB PAGES (free, permanent URL):                 ║
+║  1. github.com/new                                   ║
+║     Name: klar4jobb-prototype                        ║
+║     Public → Create repository                       ║
+║  2. Upload this file as: index.html                  ║
+║  3. Settings → Pages → Deploy from branch            ║
+║     Branch: main / root → Save                       ║
+║  4. Wait ~60s → live at:                             ║
+║     https://[username].github.io/klar4jobb-prototype ║
+║  5. QR: qr-code-generator.com → paste URL → Done    ║
+║                                                      ║
+║  VERCEL (30 seconds):                                ║
+║  1. vercel.com → New Project                         ║
+║  2. Drag & drop this file                            ║
+║  3. Live URL instantly                               ║
+║                                                      ║
+║  CODEPEN (instant, no account needed):               ║
+║  1. codepen.io/pen                                   ║
+║  2. Paste entire file into HTML panel                ║
+║  3. Share /full/ URL → generate QR                   ║
+║                                                      ║
+╚══════════════════════════════════════════════════════╝
+-->
+</body>
+</html>
