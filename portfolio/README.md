@@ -11,6 +11,17 @@ npm run serve           # build + local preview on http://localhost:4173
 
 `dist/` is plain HTML/CSS/JS and can be hosted anywhere (GitHub Pages, Netlify, Cloudflare Pages). The build prints a "Before launch" list of anything still missing.
 
+## Deploy on Vercel
+
+`vercel.json` at the repo root already tells Vercel how to build the site, so no project settings are needed:
+
+1. At [vercel.com/new](https://vercel.com/new), import `arianneav0013-ux/klar4jobb-prototype`.
+2. Leave **Root Directory** as the repo root and **Framework Preset** as "Other". Click **Deploy**.
+3. Every push then deploys automatically, with a preview URL for each pull request.
+4. When the domain is ready: Project → Settings → Domains, then update `siteUrl` in `config.mjs`.
+
+Or from a terminal with the Vercel CLI: `npx vercel` (preview) and `npx vercel --prod`.
+
 ## Where things live
 
 | What | File |
