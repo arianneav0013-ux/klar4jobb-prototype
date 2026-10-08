@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://ariannevillaluna.com/en/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ariannevillaluna.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://ariannevillaluna.com/no/"/>
+  </url>
+  <url>
+    <loc>https://ariannevillaluna.com/no/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ariannevillaluna.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://ariannevillaluna.com/no/"/>
+  </url>
+  <url>
+    <loc>https://ariannevillaluna.com/en/services/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ariannevillaluna.com/en/services/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://ariannevillaluna.com/no/services/"/>
+  </url>
+  <url>
+    <loc>https://ariannevillaluna.com/no/services/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ariannevillaluna.com/en/services/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://ariannevillaluna.com/no/services/"/>
+  </url>
+  <url>
+    <loc>https://ariannevillaluna.com/en/work/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ariannevillaluna.com/en/work/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://ariannevillaluna.com/no/work/"/>
+  </url>
+  <url>
+    <loc>https://ariannevillaluna.com/no/work/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ariannevillaluna.com/en/work/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://ariannevillaluna.com/no/work/"/>
+  </url>
+  <url>
+    <loc>https://ariannevillaluna.com/en/about/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ariannevillaluna.com/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://ariannevillaluna.com/no/about/"/>
+  </url>
+  <url>
+    <loc>https://ariannevillaluna.com/no/about/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ariannevillaluna.com/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://ariannevillaluna.com/no/about/"/>
+  </url>
+  <url>
+    <loc>https://ariannevillaluna.com/en/beyond/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ariannevillaluna.com/en/beyond/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://ariannevillaluna.com/no/beyond/"/>
+  </url>
+  <url>
+    <loc>https://ariannevillaluna.com/no/beyond/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ariannevillaluna.com/en/beyond/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://ariannevillaluna.com/no/beyond/"/>
+  </url>
+  <url>
+    <loc>https://ariannevillaluna.com/en/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ariannevillaluna.com/en/contact/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://ariannevillaluna.com/no/contact/"/>
+  </url>
+  <url>
+    <loc>https://ariannevillaluna.com/no/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ariannevillaluna.com/en/contact/"/>
+    <xhtml:link rel="alternate" hreflang="nb" href="https://ariannevillaluna.com/no/contact/"/>
+  </url>
+</urlset>
