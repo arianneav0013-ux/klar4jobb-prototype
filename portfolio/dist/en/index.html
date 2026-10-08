@@ -72,6 +72,29 @@
       </div>
     </section>
 
+    <section class="section" aria-labelledby="ask-ai-title">
+      <div class="wrap">
+        <div class="ask-ai reveal" data-error="Sorry, I couldn’t answer just now. Please try again, or ask Arianne directly via Secret identity." data-limit="That’s a lot of questions! Please take a short break, or ask Arianne directly via Secret identity." data-thinking="Thinking…">
+          <div class="ask-ai-head">
+            <span class="eyebrow">Ask about me</span>
+            <h2 id="ask-ai-title">Got a question? Ask away.</h2>
+            <p>My assistant knows my experience, my work and a little about life outside it. Ask it anything you’d ask me over coffee.</p>
+          </div>
+          <div class="ask-ai-log" role="log" aria-live="polite" aria-label="Conversation">
+            <p class="msg msg-bot">Hi! I’m Arianne’s assistant. Ask me about her experience, how she could help your team, or what she’s like outside work.</p>
+          </div>
+          <ul class="ask-ai-chips" aria-label="Suggested questions"><li><button type="button" class="chip">What does Arianne do?</button></li><li><button type="button" class="chip">What did she achieve at Huawei?</button></li><li><button type="button" class="chip">Can I hire her for my team?</button></li><li><button type="button" class="chip">What is she like outside work?</button></li></ul>
+          <form class="ask-ai-form">
+            <label for="ask-ai-input" class="visually-hidden">Your question</label>
+            <input id="ask-ai-input" name="q" type="text" maxlength="600" autocomplete="off" placeholder="Ask a question about Arianne…" required>
+            <button class="btn btn-primary" type="submit">Ask</button>
+          </form>
+          <p class="ask-ai-note small muted">AI answers, powered by GPT-6 Luna via Vercel AI Gateway. They can make mistakes, so for anything important <a href="../en/secret-identity/">ask me directly</a>.</p>
+          <noscript><p class="small">The assistant needs JavaScript. You can still ask me directly on the Secret identity page.</p></noscript>
+        </div>
+      </div>
+    </section>
+
     <section class="section" aria-labelledby="fix-title">
       <div class="wrap">
         <div class="section-head reveal">

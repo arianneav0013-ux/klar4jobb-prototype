@@ -72,6 +72,29 @@
       </div>
     </section>
 
+    <section class="section" aria-labelledby="ask-ai-title">
+      <div class="wrap">
+        <div class="ask-ai reveal" data-error="Beklager, jeg klarte ikke å svare akkurat nå. Prøv igjen, eller spør Arianne direkte via Hemmelig identitet." data-limit="Det var mange spørsmål! Ta en liten pause, eller spør Arianne direkte via Hemmelig identitet." data-thinking="Tenker …">
+          <div class="ask-ai-head">
+            <span class="eyebrow">Spør om meg</span>
+            <h2 id="ask-ai-title">Lurer du på noe? Bare spør.</h2>
+            <p>Assistenten min kjenner erfaringen min, arbeidet mitt og litt om livet utenfor jobben. Spør om alt du ville spurt meg om over en kaffe.</p>
+          </div>
+          <div class="ask-ai-log" role="log" aria-live="polite" aria-label="Samtale">
+            <p class="msg msg-bot">Hei! Jeg er Ariannes assistent. Spør meg om erfaringen hennes, hvordan hun kan hjelpe teamet ditt, eller hvordan hun er utenfor jobben.</p>
+          </div>
+          <ul class="ask-ai-chips" aria-label="Forslag til spørsmål"><li><button type="button" class="chip">Hva jobber Arianne med?</button></li><li><button type="button" class="chip">Hva oppnådde hun hos Huawei?</button></li><li><button type="button" class="chip">Kan jeg ansette henne?</button></li><li><button type="button" class="chip">Hvordan er hun utenfor jobben?</button></li></ul>
+          <form class="ask-ai-form">
+            <label for="ask-ai-input" class="visually-hidden">Spørsmålet ditt</label>
+            <input id="ask-ai-input" name="q" type="text" maxlength="600" autocomplete="off" placeholder="Still et spørsmål om Arianne …" required>
+            <button class="btn btn-primary" type="submit">Spør</button>
+          </form>
+          <p class="ask-ai-note small muted">KI-svar, levert av GPT-6 Luna via Vercel AI Gateway. Svarene kan inneholde feil, så for viktige ting kan du <a href="../no/secret-identity/">spørre meg direkte</a>.</p>
+          <noscript><p class="small">Assistenten trenger JavaScript. Du kan fortsatt spørre meg direkte på siden Hemmelig identitet.</p></noscript>
+        </div>
+      </div>
+    </section>
+
     <section class="section" aria-labelledby="fix-title">
       <div class="wrap">
         <div class="section-head reveal">

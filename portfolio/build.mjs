@@ -216,6 +216,31 @@ function home(t, link) {
       </div>
     </section>
 
+    <section class="section" aria-labelledby="ask-ai-title">
+      <div class="wrap">
+        <div class="ask-ai reveal" data-error="${esc(h.ask.error)}" data-limit="${esc(h.ask.limit)}" data-thinking="${esc(h.ask.thinking)}">
+          <div class="ask-ai-head">
+            <span class="eyebrow">${h.ask.eyebrow}</span>
+            <h2 id="ask-ai-title">${h.ask.title}</h2>
+            <p>${h.ask.text}</p>
+          </div>
+          <div class="ask-ai-log" role="log" aria-live="polite" aria-label="${esc(h.ask.logLabel)}">
+            <p class="msg msg-bot">${h.ask.greeting}</p>
+          </div>
+          <ul class="ask-ai-chips" aria-label="${esc(h.ask.suggestionsLabel)}">${h.ask.suggestions
+            .map((q) => `<li><button type="button" class="chip">${q}</button></li>`)
+            .join("")}</ul>
+          <form class="ask-ai-form">
+            <label for="ask-ai-input" class="visually-hidden">${h.ask.inputLabel}</label>
+            <input id="ask-ai-input" name="q" type="text" maxlength="600" autocomplete="off" placeholder="${esc(h.ask.placeholder)}" required>
+            <button class="btn btn-primary" type="submit">${h.ask.send}</button>
+          </form>
+          <p class="ask-ai-note small muted">${h.ask.note.replace("{secret}", link("secret-identity"))}</p>
+          <noscript><p class="small">${h.ask.noscript}</p></noscript>
+        </div>
+      </div>
+    </section>
+
     <section class="section" aria-labelledby="fix-title">
       <div class="wrap">
         <div class="section-head reveal">
@@ -635,6 +660,34 @@ ${urls.join("\n")}
 </urlset>
 `
 );
+// Knowledge for the "Ask about me" assistant (api/ask.js). Built only from the public
+// site copy, so the assistant can't know more than the site says. Committed alongside
+// the function so it is bundled with it.
+const plain = (x) => String(x).replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+const knowledge = [
+  `NAME: ${en.name}`,
+  `INTRO: ${plain(en.home.hero.lead)} Hook: "${plain(en.home.hero.h1)}"`,
+  `KEY NUMBERS: ${en.home.stats.map((s) => `${s.value} ${s.label}`).join("; ")}`,
+  `QUICK FACTS: ${en.home.personal.facts.map((f) => `${f.label}: ${f.value}`).join("; ")}`,
+  `WAYS TO WORK WITH HER (consulting, part-time or full-time):`,
+  ...en.services.items.map((it) => `- ${it.title}: ${plain(it.text)} Includes: ${it.bullets.join(", ")}. Proof: ${plain(it.proof)}`),
+  `HOW AN ENGAGEMENT WORKS: ${en.services.process.steps.map((st) => `${st.title}: ${st.text}`).join(" ")}`,
+  `WHO SHE WORKS WITH: ${en.services.fit.items.join("; ")}`,
+  `CASE STUDIES:`,
+  ...en.work.cases.map((c) => `- ${c.title} (${c.tag}; ${c.meta}). Problem: ${c.problem} Approach: ${c.approach.join("; ")}. Outcome: ${c.outcome}`),
+  `CAREER STORY:`,
+  ...en.about.chapters.map((c) => `- ${c.when}: ${c.title}, ${c.where}. ${c.bullets.join("; ")}`),
+  `CREDENTIALS & LANGUAGES: ${en.about.credentials.items.join("; ")}`,
+  `IN THREE WORDS: ${en.about.words.items.join(", ")}`,
+  `BEYOND WORK:`,
+  ...en.beyond.blocks.map((b) => `- ${b.title}: ${plain(b.text)} ${b.bullets.join("; ")}`),
+  `- Layout & visual design: ${en.beyond.gallery.text}`,
+  `OFF THE CLOCK:`,
+  ...en.secret.facts.map((f) => `- ${f.title}: ${f.text}`),
+  `CONTACT: Book a 30-minute conversation on the Contact page (/en/contact/ or /no/contact/). Ask anything via the form on the Secret identity page (/en/secret-identity/). ${config.email ? `Email: ${config.email}.` : ""} ${config.linkedin ? `LinkedIn: ${config.linkedin}.` : ""} Based in Oslo, Norway.`,
+].join("\n");
+writeFileSync(join(ROOT, "../api/_knowledge.json"), JSON.stringify({ knowledge }, null, 2) + "\n");
+
 writeFileSync(join(OUT, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${config.siteUrl}/sitemap.xml\n`);
 
 console.log(`Built ${count} pages into dist/`);

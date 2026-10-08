@@ -42,6 +42,15 @@ Or from a terminal with the Vercel CLI: `npx vercel` (preview) and `npx vercel -
 - **Conversion:** "Book a conversation" in the header and a closing call-to-action on every page; Cal.com/Calendly embed on `/contact` once `bookingUrl` is set.
 - **Analytics:** Plausible script is added only when `plausibleDomain` is set (no cookies, no banner).
 
+## "Ask about me" assistant
+
+The home page has a chat where visitors can ask questions about you. It calls `api/ask.js`, a Vercel Function that sends the question to **GPT-6 Luna through Vercel AI Gateway**.
+
+- **Auth:** on Vercel the function uses the project's OIDC token, so no API key is needed. AI Gateway usage is billed to your Vercel account (check AI Gateway → credits in the dashboard).
+- **Model:** `openai/gpt-6-luna` by default; set the `AI_MODEL` environment variable in Vercel to change it.
+- **What it knows:** only your site copy. `node build.mjs` regenerates `api/_knowledge.json` from `content/en.mjs`, so update the content, rebuild and commit.
+- **Guardrails:** answers only about you, never invents facts, short replies, same-site requests only, 600-character questions, ~20 questions per visitor per 10 minutes (per server instance; add a Vercel Firewall rate-limit rule on `/api/ask` for stronger protection).
+
 ## Secret Identity form
 
 Set `formEndpoint` in `config.mjs` to a [Formspree](https://formspree.io) form URL (or any service that accepts a JSON POST) and messages arrive in your inbox. Until then, sending the form opens the visitor's email app with the message pre-filled. A hidden honeypot field filters simple spam bots.

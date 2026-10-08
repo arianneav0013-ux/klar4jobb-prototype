@@ -103,3 +103,77 @@
       .then(function () { button.disabled = false; });
   });
 })();
+
+// "Ask about me" assistant on the home page. Talks to /api/ask (Vercel Function → AI Gateway).
+(function () {
+  var box = document.querySelector(".ask-ai");
+  if (!box) return;
+  var log = box.querySelector(".ask-ai-log");
+  var form = box.querySelector(".ask-ai-form");
+  var input = form.querySelector("input");
+  var button = form.querySelector("button");
+  var history = [];
+  var busy = false;
+
+  box.classList.add("is-ready");
+
+  function add(role, text, extra) {
+    var p = document.createElement("p");
+    p.className = "msg msg-" + role + (extra ? " " + extra : "");
+    p.textContent = text;
+    log.appendChild(p);
+    log.scrollTop = log.scrollHeight;
+    return p;
+  }
+
+  function ask(question) {
+    question = question.trim().slice(0, 600);
+    if (!question || busy) return;
+    busy = true;
+    button.disabled = true;
+    add("user", question);
+    history.push({ role: "user", content: question });
+    var pending = add("bot", box.getAttribute("data-thinking"), "is-pending");
+
+    fetch("/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: history.slice(-10) }),
+    })
+      .then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (res.status === 429) throw new Error("limit");
+          if (!res.ok || !data.answer) throw new Error("error");
+          return data.answer;
+        });
+      })
+      .then(function (answer) {
+        pending.classList.remove("is-pending");
+        pending.textContent = answer;
+        history.push({ role: "assistant", content: answer });
+      })
+      .catch(function (err) {
+        history.pop();
+        pending.classList.remove("is-pending");
+        pending.classList.add("is-error");
+        pending.textContent = box.getAttribute(err.message === "limit" ? "data-limit" : "data-error");
+      })
+      .then(function () {
+        busy = false;
+        button.disabled = false;
+        log.scrollTop = log.scrollHeight;
+      });
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var q = input.value;
+    input.value = "";
+    ask(q);
+    input.focus();
+  });
+
+  box.querySelectorAll(".chip").forEach(function (chip) {
+    chip.addEventListener("click", function () { ask(chip.textContent); });
+  });
+})();
