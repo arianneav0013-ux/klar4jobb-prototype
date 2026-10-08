@@ -1,6 +1,6 @@
 # Arianne A. Villaluna — personal site
 
-A fast, dependency-free static site built from `brief.md` (v0.2): six pages (Home, Services, Work, About, Beyond work, Contact) in English (`/en/`) and Norwegian (`/no/`).
+A fast, dependency-free static site built from [`brief.md`](brief.md) (v0.3, "hire me, get to know me"): seven pages (Home, Services, Work, About, Beyond work, Contact, Secret identity) in English (`/en/`) and Norwegian (`/no/`).
 
 ## Build & preview
 
@@ -26,7 +26,7 @@ Or from a terminal with the Vercel CLI: `npx vercel` (preview) and `npx vercel -
 
 | What | File |
 |---|---|
-| Domain, email, LinkedIn, booking link, analytics | `config.mjs` |
+| Domain, email, LinkedIn, booking link, form endpoint, analytics | `config.mjs` |
 | English copy | `content/en.mjs` |
 | Norwegian copy (to proofread) | `content/no.mjs` |
 | Page templates | `build.mjs` |
@@ -42,9 +42,14 @@ Or from a terminal with the Vercel CLI: `npx vercel` (preview) and `npx vercel -
 - **Conversion:** "Book a conversation" in the header and a closing call-to-action on every page; Cal.com/Calendly embed on `/contact` once `bookingUrl` is set.
 - **Analytics:** Plausible script is added only when `plausibleDomain` is set (no cookies, no banner).
 
+## Secret Identity form
+
+Set `formEndpoint` in `config.mjs` to a [Formspree](https://formspree.io) form URL (or any service that accepts a JSON POST) and messages arrive in your inbox. Until then, sending the form opens the visitor's email app with the message pre-filled. A hidden honeypot field filters simple spam bots.
+
 ## Still to do (from the brief's content inventory)
 
-- [ ] Fill in `config.mjs` (email, LinkedIn, booking URL, domain)
+- [ ] Fill in `config.mjs` (email, LinkedIn, booking URL, form endpoint, domain)
+- [ ] Confirm the personal facts on Home and Secret identity
 - [ ] Headshot, CV PDF, and 4–6 layout design samples (gallery currently shows placeholders)
 - [ ] Review the three case studies; they are drafted from the proof points in the brief
 - [ ] Testimonials (none added; no quotes were invented)

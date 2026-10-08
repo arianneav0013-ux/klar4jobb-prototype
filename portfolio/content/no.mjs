@@ -13,10 +13,13 @@ export default {
     about: "Om meg",
     beyond: "Utenfor jobben",
     contact: "Kontakt",
+    "secret-identity": "Hemmelig identitet",
   },
 
   ui: {
-    book: "Book en samtale",
+    book: "Jobb med meg",
+    getToKnow: "Bli kjent med meg",
+    askMe: "Spør meg om hva som helst",
     skip: "Hopp til innhold",
     menu: "Meny",
     language: "Språk",
@@ -33,9 +36,9 @@ export default {
   },
 
   cta: {
-    title: "La oss finne ut hvor overleveringene stopper opp.",
-    text: "En samtale på 30 minutter om prosessen deres. Du går derfra med et klarere bilde, enten vi jobber sammen eller ikke.",
-    secondary: "Send meg en e-post",
+    title: "La oss jobbe sammen.",
+    text: "Skal du ansette, eller står det fast der salg, data og leveranse møtes? Fortell meg om det. Eller bare si hei.",
+    secondary: "Spør meg om hva som helst",
   },
 
   home: {
@@ -43,10 +46,10 @@ export default {
     description:
       "Ingeniør og driftsrådgiver med over sju års erfaring fra Huawei og 3M. Jeg hjelper team med å få salg, produktdata og leveranse til å henge sammen.",
     hero: {
-      eyebrow: "Ingeniør · Driftsrådgiver · Oslo",
+      eyebrow: "Hei, jeg er Arianne <span class=\"wave\" aria-hidden=\"true\">👋</span>",
       h1: "Jeg tenker i systemer.",
       lead:
-        "Jeg kobler sammen kunder, tekniske team og forretningsprosesser, og skaper klarhet der overleveringer vanligvis går tapt.",
+        "Jeg er ingeniør og kobler sammen kunder, tekniske team og forretningsprosesser. Sju år hos Huawei og 3M lærte meg hvor overleveringer går tapt, og hvordan man fikser dem. Nå bor jeg i Oslo, klar for neste team.",
     },
     stats: [
       { value: "7+", label: "år med drift og leveranse hos Huawei og 3M" },
@@ -82,7 +85,15 @@ export default {
       items: ["Huawei", "3M", "Universitetet i Oslo (MSc, 2026–2028)"],
     },
     personal: {
-      text: "Flyttet fra Filippinene til Norge i 2022. Lærer norsk, bygger en startup og hopper aldri over søndagsturen.",
+      title: "Bli kjent med meg",
+      facts: [
+        { emoji: "📍", label: "Bor i", value: "Oslo" },
+        { emoji: "🇵🇭", label: "Kommer fra", value: "Filippinene" },
+        { emoji: "⚙️", label: "Utdannet", value: "Elektronikkingeniør" },
+        { emoji: "🎤", label: "Innerst inne", value: "En arrangør" },
+        { emoji: "🗣️", label: "Lærer akkurat nå", value: "Norsk (B1 → B2)" },
+        { emoji: "🌲", label: "På søndager", value: "Søndagstur, alltid" },
+      ],
     },
   },
 
@@ -91,10 +102,10 @@ export default {
     description:
       "Rådgivning for små og mellomstore bedrifter, vekstselskaper og startups: prosessdesign fra salg til leveranse, produktdata og digital drift, onboarding og støtte i tidlig fase.",
     hero: {
-      eyebrow: "Tjenester",
+      eyebrow: "Slik kan vi jobbe sammen",
       h1: "Klarhet der overleveringer går tapt.",
       lead:
-        "Praktisk og hands-on rådgivning for små og mellomstore bedrifter, vekstselskaper og startups. Hvert tjenesteområde bygger på arbeid jeg har levert i stor skala.",
+        "Som rådgiver, i en deltidsstilling eller i teamet ditt: dette er hva jeg tar med meg. Hvert område bygger på arbeid jeg har levert i stor skala.",
     },
     proofLabel: "Dokumentert",
     items: [
@@ -391,8 +402,8 @@ export default {
     description: "Book en samtale med Arianne A. Villaluna, eller ta kontakt på e-post eller LinkedIn.",
     hero: {
       eyebrow: "Kontakt",
-      h1: "Book en samtale.",
-      lead: "Velg et tidspunkt som passer deg. Tretti minutter er som regel nok til å se om jeg kan hjelpe.",
+      h1: "La oss jobbe sammen.",
+      lead: "Velg et tidspunkt for en prat på 30 minutter. Det er som regel nok til å se om jeg passer for teamet eller prosjektet ditt.",
     },
     booking: {
       frameTitle: "Bookingkalender",
@@ -412,5 +423,43 @@ export default {
     },
     signoff: "Er du nysgjerrig? La oss ta en prat.",
     signoffNote: "",
+  },
+  secret: {
+    title: "Hemmelig identitet — Arianne A. Villaluna",
+    description:
+      "Om dagen fikser Arianne overleveringer. Bli kjent med resten av henne, spør om hva som helst, eller start et samarbeid.",
+    hero: {
+      eyebrow: "Hemmelig identitet",
+      h1: "Om dagen fikser jeg overleveringer. Her er resten av meg.",
+      lead:
+        "Bak prosesskart og mengdelister finnes det en arrangør, en layoutdesigner og en nykommer i Norge som elsker en lang søndagstur. Si hei. Jeg leser alle meldinger selv.",
+    },
+    factsTitle: "Etter arbeidstid",
+    facts: [
+      { emoji: "🎤", title: "Arrangøren", text: "Seks år som leder for engasjementsteam hos Huawei og 3M, og fortsatt frivillig på arrangementer i Oslo." },
+      { emoji: "🎨", title: "Layoutdesigneren", text: "Bryllupslayout og presentasjonsdesign. Jeg klarer ikke å la en skjev marg være." },
+      { emoji: "📸", title: "Historiefortelleren", text: "Sosiale medier for Kalayaan Norge, pluss foto og video med Abyss Creatives." },
+      { emoji: "💡", title: "Byggeren", text: "Jobber med Merita, et produkt for innvandrere som søker jobb, i inkubatoren Insj ved UiO." },
+      { emoji: "🇳🇴", title: "Nykommeren", text: "Fra Filippinene til Oslo i 2022. Norsk på B1-nivå, og på vei oppover." },
+      { emoji: "🌲", title: "Søndagsturgåeren", text: "Søndagstur hver uke, uansett vær." },
+    ],
+    form: {
+      eyebrow: "Spør meg om hva som helst",
+      title: "Er du nysgjerrig? La oss ta en prat.",
+      intro:
+        "Et spørsmål om arbeidet mitt, en stilling du skal fylle, et prosjekt du vil starte, eller bare et hei. Jeg svarer innen to virkedager.",
+      name: "Navnet ditt",
+      email: "E-postadressen din",
+      topic: "Hva gjelder det?",
+      topics: ["Bare nysgjerrig", "Jeg har et spørsmål", "La oss jobbe sammen", "Jeg skal ansette", "Noe annet"],
+      message: "Meldingen din",
+      placeholder: "Fortell meg litt om hva du tenker på …",
+      privacy: "Jeg bruker bare opplysningene dine til å svare deg.",
+      submit: "Send melding",
+      sending: "Sender …",
+      sent: "Tusen takk! Meldingen er sendt. Jeg svarer deg innen to virkedager.",
+      error: "Noe gikk galt. Prøv igjen, eller send meg en e-post direkte.",
+      subject: "Hei fra nettsiden din",
+    },
   },
 };

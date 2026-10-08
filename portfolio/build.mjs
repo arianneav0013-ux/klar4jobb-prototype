@@ -14,8 +14,8 @@ const OUT = join(ROOT, "dist");
 const STATIC = join(ROOT, "static");
 
 const LANGS = { en, no };
-const PAGES = ["", "services", "work", "about", "beyond", "contact"];
-const NAV = ["services", "work", "about", "beyond", "contact"];
+const PAGES = ["", "services", "work", "about", "beyond", "contact", "secret-identity"];
+const NAV = ["services", "work", "about", "beyond", "contact", "secret-identity"];
 
 // --- Config checks ----------------------------------------------------------
 
@@ -26,6 +26,7 @@ const email = config.email || "hello@example.com";
 const warnings = [];
 if (!config.email) warnings.push("config.email is empty (using hello@example.com placeholder)");
 if (!config.linkedin) warnings.push("config.linkedin is empty (LinkedIn link hidden)");
+if (!config.formEndpoint) warnings.push("config.formEndpoint is empty (Secret Identity form opens a pre-filled email)");
 if (!config.bookingUrl) warnings.push("config.bookingUrl is empty (contact page shows email fallback)");
 if (!hasCv) warnings.push(`static/assets/cv/${config.cvFile} not found (showing "Request my CV")`);
 if (!hasHeadshot) warnings.push(`static/assets/img/${config.headshot} not found (showing monogram)`);
@@ -119,7 +120,7 @@ function layout({ t, slug, title, description, body }) {
 
   <main id="main">
 ${body}
-${slug === "contact" ? "" : ctaBand(t, link)}
+${slug === "contact" || slug === "secret-identity" ? "" : ctaBand(t, link)}
   </main>
 
   <footer class="site-footer">
@@ -141,7 +142,7 @@ function ctaBand(t, link) {
         <p>${t.cta.text}</p>
         <div class="btn-row">
           <a class="btn btn-primary" href="${link("contact")}">${t.ui.book}</a>
-          <a class="btn btn-ghost" href="${mailto(t.contact.details.emailSubject)}">${t.cta.secondary}</a>
+          <a class="btn btn-ghost" href="${link("secret-identity")}">${t.cta.secondary}</a>
         </div>
       </div>
     </section>`;
@@ -203,7 +204,7 @@ function home(t, link) {
     h.hero,
     `<div class="btn-row reveal" data-delay="3">
           <a class="btn btn-primary" href="${link("contact")}">${t.ui.book}</a>
-          <a class="btn btn-ghost" href="${link("work")}">${t.ui.seeWork}</a>
+          <a class="btn btn-ghost" href="${link("about")}">${t.ui.getToKnow}</a>
         </div>`,
     ""
   )}
@@ -239,17 +240,22 @@ function home(t, link) {
       </div>
     </section>
 
-    <section class="section" aria-label="${h.strip.label}">
+    <section class="section" aria-labelledby="know-title">
       <div class="wrap">
         <div class="strip reveal">
           <span>${h.strip.label}</span>
           ${h.strip.items.map((x) => `<strong>${x}</strong>`).join("\n          ")}
           <a class="arrow-link" href="${link("about")}" style="margin-left:auto">${t.ui.moreAboutMe}</a>
         </div>
-        <div class="personal-note reveal" style="margin-top:40px">
-          <span class="emoji" aria-hidden="true">🌲</span>
-          <p>${h.personal.text}</p>
-          <a class="arrow-link" href="${link("beyond")}">${t.ui.beyondLink}</a>
+        <div class="know-me reveal" style="margin-top:56px">
+          <h2 id="know-title">${h.personal.title}</h2>
+          <ul class="facts">${h.personal.facts
+            .map((f) => `<li><span aria-hidden="true">${f.emoji}</span><span><span class="fact-label">${f.label}</span>${f.value}</span></li>`)
+            .join("")}</ul>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="${link("secret-identity")}">${t.ui.askMe}</a>
+            <a class="arrow-link" href="${link("beyond")}">${t.ui.beyondLink}</a>
+          </div>
         </div>
       </div>
     </section>`;
@@ -476,8 +482,64 @@ function contact(t, link, p) {
     </section>`;
 }
 
-const RENDER = { "": home, services, work, about, beyond, contact };
-const META = { "": "home", services: "services", work: "work", about: "about", beyond: "beyond", contact: "contact" };
+function secretIdentity(t, link) {
+  const s = t.secret;
+  const f = s.form;
+  const options = f.topics.map((o, i) => `<option${i === 0 ? " selected" : ""}>${o}</option>`).join("");
+  const facts = s.facts
+    .map((x, i) => `<li class="card reveal" data-delay="${i % 3}"><span class="emoji" aria-hidden="true">${x.emoji}</span><h3>${x.title}</h3><p>${x.text}</p></li>`)
+    .join("");
+
+  return `${hero(s.hero, "", "hero-sub hero-secret")}
+
+    <section class="section" aria-labelledby="facts-title" style="padding-top:0">
+      <div class="wrap">
+        <h2 id="facts-title" class="reveal" style="font-size:var(--step-2)">${s.factsTitle}</h2>
+        <ul class="grid grid-3 facts-grid">${facts}</ul>
+      </div>
+    </section>
+
+    <section class="section section-alt" aria-labelledby="ask-title">
+      <div class="wrap ask">
+        <div class="reveal">
+          <span class="eyebrow">${f.eyebrow}</span>
+          <h2 id="ask-title">${f.title}</h2>
+          <p class="lead">${f.intro}</p>
+        </div>
+        <form class="ask-form reveal" data-delay="1" method="post" action="${esc(config.formEndpoint || "mailto:" + email)}"${config.formEndpoint ? "" : ' enctype="text/plain"'}
+          data-endpoint="${esc(config.formEndpoint || "")}" data-mailto="${esc(email)}"
+          data-sent="${esc(f.sent)}" data-error="${esc(f.error)}" data-sending="${esc(f.sending)}" data-subject="${esc(f.subject)}" novalidate>
+          <div class="field">
+            <label for="f-name">${f.name}</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="f-email">${f.email}</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="f-topic">${f.topic}</label>
+            <select id="f-topic" name="topic">${options}</select>
+          </div>
+          <div class="field">
+            <label for="f-message">${f.message}</label>
+            <textarea id="f-message" name="message" rows="6" required placeholder="${esc(f.placeholder)}"></textarea>
+          </div>
+          <div class="hp" aria-hidden="true">
+            <label for="f-company">Company</label>
+            <input id="f-company" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <input type="hidden" name="language" value="${t.lang}">
+          <p class="small muted">${f.privacy}</p>
+          <button class="btn btn-primary" type="submit">${f.submit}</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>`;
+}
+
+const RENDER = { "": home, services, work, about, beyond, contact, "secret-identity": secretIdentity };
+const META = { "": "home", services: "services", work: "work", about: "about", beyond: "beyond", contact: "contact", "secret-identity": "secret" };
 
 // --- Build ------------------------------------------------------------------
 

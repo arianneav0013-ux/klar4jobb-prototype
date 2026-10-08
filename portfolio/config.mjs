@@ -13,6 +13,10 @@ export default {
   // When empty, the contact page shows an email fallback instead of the embed.
   bookingUrl: "", // TODO
 
+  // Secret Identity form: a Formspree (https://formspree.io/f/xxxx) or Web3Forms-style
+  // endpoint that accepts a JSON POST. Empty = the form opens a pre-filled email instead.
+  formEndpoint: "", // TODO
+
   // Plausible analytics domain (e.g. "ariannevillaluna.com"). Empty = no analytics script.
   plausibleDomain: "",
 

@@ -13,10 +13,13 @@ export default {
     about: "About",
     beyond: "Beyond work",
     contact: "Contact",
+    "secret-identity": "Secret identity",
   },
 
   ui: {
-    book: "Book a conversation",
+    book: "Hire me",
+    getToKnow: "Get to know me",
+    askMe: "Ask me anything",
     skip: "Skip to content",
     menu: "Menu",
     language: "Language",
@@ -33,9 +36,9 @@ export default {
   },
 
   cta: {
-    title: "Let’s find where your handovers get lost.",
-    text: "A 30-minute conversation about your process. You leave with a clearer picture, whether we work together or not.",
-    secondary: "Email me",
+    title: "Let’s work together.",
+    text: "Hiring for a role, or stuck where sales, data and delivery meet? Tell me about it. Or just say hi.",
+    secondary: "Ask me anything",
   },
 
   home: {
@@ -43,10 +46,10 @@ export default {
     description:
       "Engineer and operations consultant with 7+ years at Huawei and 3M. I help teams fix the space between sales, product data and delivery.",
     hero: {
-      eyebrow: "Engineer · Operations consultant · Oslo",
+      eyebrow: "Hi, I’m Arianne <span class=\"wave\" aria-hidden=\"true\">👋</span>",
       h1: "I think in systems.",
       lead:
-        "I connect customers, technical teams and business processes, and I create clarity where handovers usually get lost.",
+        "I’m an engineer who connects customers, technical teams and business processes. Seven years at Huawei and 3M taught me where handovers get lost, and how to fix them. Now I’m in Oslo, ready for the next team.",
     },
     stats: [
       { value: "7+", label: "years in operations at Huawei and 3M" },
@@ -82,7 +85,15 @@ export default {
       items: ["Huawei", "3M", "University of Oslo (MSc, 2026–2028)"],
     },
     personal: {
-      text: "Moved from the Philippines to Norway in 2022. Learning Norwegian, building a startup, and never skipping the søndagstur.",
+      title: "Get to know me",
+      facts: [
+        { emoji: "📍", label: "Based in", value: "Oslo, Norway" },
+        { emoji: "🇵🇭", label: "From", value: "The Philippines" },
+        { emoji: "⚙️", label: "By training", value: "Electronics engineer" },
+        { emoji: "🎤", label: "At heart", value: "An event person" },
+        { emoji: "🗣️", label: "Currently learning", value: "Norwegian (B1 → B2)" },
+        { emoji: "🌲", label: "On Sundays", value: "Søndagstur, always" },
+      ],
     },
   },
 
@@ -91,10 +102,10 @@ export default {
     description:
       "Consulting for SMBs, scale-ups and startups: sales-to-delivery process design, product data and digital operations, onboarding, and early-stage venture support.",
     hero: {
-      eyebrow: "Services",
+      eyebrow: "Ways to work with me",
       h1: "Clarity where handovers get lost.",
       lead:
-        "Practical, hands-on consulting for SMBs, scale-ups and startups. Each service line comes straight from work I’ve delivered at scale.",
+        "As a consultant, in a part-time role or on your team: here’s what I bring. Each area comes straight from work I’ve delivered at scale.",
     },
     proofLabel: "Proof",
     items: [
@@ -402,8 +413,8 @@ export default {
     description: "Book a conversation with Arianne A. Villaluna, or reach out by email or LinkedIn.",
     hero: {
       eyebrow: "Contact",
-      h1: "Book a conversation.",
-      lead: "Pick a time that suits you. Thirty minutes is usually enough to see whether I can help.",
+      h1: "Let’s work together.",
+      lead: "Pick a time for a 30-minute chat. It’s usually enough to see whether I’m the right fit for your team or project.",
     },
     booking: {
       frameTitle: "Booking calendar",
@@ -423,5 +434,43 @@ export default {
     },
     signoff: "Er du nysgjerrig? La oss ta en prat.",
     signoffNote: "Curious? Let’s talk.",
+  },
+  secret: {
+    title: "Secret identity — Arianne A. Villaluna",
+    description:
+      "By day, Arianne fixes handovers. Meet the rest of her, ask her anything, or start working together.",
+    hero: {
+      eyebrow: "Secret identity",
+      h1: "By day, I fix handovers. Here’s the rest of me.",
+      lead:
+        "Behind the process maps and BOQs there’s an event organiser, a layout designer and a newcomer to Norway who loves a long Sunday walk. Say hello. I read every message myself.",
+    },
+    factsTitle: "Off the clock",
+    facts: [
+      { emoji: "🎤", title: "The event person", text: "Six years leading engagement teams at Huawei and 3M, and still volunteering at events around Oslo." },
+      { emoji: "🎨", title: "The layout designer", text: "Wedding layouts and presentation design. I can’t leave a misaligned margin alone." },
+      { emoji: "📸", title: "The storyteller", text: "Social media for Kalayaan Norge, plus photo and video coverage with Abyss Creatives." },
+      { emoji: "💡", title: "The builder", text: "Working on Merita, a product for immigrant job seekers, in the Insj UiO incubator." },
+      { emoji: "🇳🇴", title: "The newcomer", text: "From the Philippines to Oslo in 2022. Norwegian at B1 and climbing." },
+      { emoji: "🌲", title: "The Sunday walker", text: "Søndagstur, every week, whatever the weather." },
+    ],
+    form: {
+      eyebrow: "Ask me anything",
+      title: "Curious? Let’s talk.",
+      intro:
+        "A question about my work, a role you’re hiring for, a project you want to start, or just a hello. I’ll reply within two working days.",
+      name: "Your name",
+      email: "Your email",
+      topic: "What’s this about?",
+      topics: ["Just curious", "I have a question", "Let’s work together", "I’m hiring for a role", "Something else"],
+      message: "Your message",
+      placeholder: "Tell me a little about what you have in mind…",
+      privacy: "I only use your details to reply to you.",
+      submit: "Send message",
+      sending: "Sending…",
+      sent: "Thank you! Your message is on its way. I’ll get back to you within two working days.",
+      error: "Something went wrong. Please try again, or email me directly.",
+      subject: "Hello from your website",
+    },
   },
 };
