@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OneCV – One CV for all your job applications</title>
-<meta name="description" content="Get a tailored CV for each company from one master CV, and track every application in one place.">
+<title data-i18n="title">OneCV – One CV for all your job applications</title>
+<meta name="description" data-i18n-content="desc" content="Get a tailored CV for each company from one master CV, and track every application in one place.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -37,61 +37,116 @@ button:disabled{opacity:.6;cursor:default}
 .opt .d{display:block;color:var(--muted);font-weight:400;font-size:14px}
 .link{background:none;color:var(--muted);padding:4px 0;font:500 14px Inter,sans-serif;text-decoration:underline}
 [hidden]{display:none!important}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
+.top .brand{margin-bottom:0}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+.lang button{background:none;color:var(--muted);padding:6px 12px;border-radius:0;font:600 13px Inter,sans-serif}
+.lang button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
 footer{margin-top:48px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:16px}
 </style>
 </head>
 <body>
 <main>
-  <div class="brand">OneCV</div>
+  <div class="top">
+    <div class="brand">OneCV</div>
+    <div class="lang" role="group" aria-label="Language / Språk">
+      <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="no" lang="no" aria-pressed="false">NO</button>
+    </div>
+  </div>
 
   <section id="s-landing">
-    <h1>One CV for all your job applications</h1>
-    <p class="lead">Upload your master CV once. Get a version tailored to each company you apply to.</p>
+    <h1 data-i18n="h1">One CV for all your job applications</h1>
+    <p class="lead" data-i18n="lead">Upload your master CV once. Get a version tailored to each company you apply to.</p>
     <ul class="benefits">
-      <li><span class="dot">1</span><span><b>Write once, tailor everywhere.</b> Turn one master CV into a version shaped for every company you apply to.</span></li>
-      <li><span class="dot">2</span><span><b>Every application, one place.</b> See where you've applied, what's pending and what's next. No more lost emails or missed follow-ups.</span></li>
-      <li><span class="dot">3</span><span><b>Spend your time where it counts.</b> Less rewriting CVs, more preparing for the interview and the job itself.</span></li>
+      <li><span class="dot">1</span><span><b data-i18n="b1">Write once, tailor everywhere.</b> <span data-i18n="b1t">Turn one master CV into a version shaped for every company you apply to.</span></span></li>
+      <li><span class="dot">2</span><span><b data-i18n="b2">Every application, one place.</b> <span data-i18n="b2t">See where you've applied, what's pending and what's next. No more lost emails or missed follow-ups.</span></span></li>
+      <li><span class="dot">3</span><span><b data-i18n="b3">Spend your time where it counts.</b> <span data-i18n="b3t">Less rewriting CVs, more preparing for the interview and the job itself.</span></span></li>
     </ul>
     <form id="signup" novalidate>
-      <input id="email" type="email" placeholder="Your email" autocomplete="email" aria-label="Email address" required>
-      <button id="go" type="submit">Get early access</button>
+      <input id="email" type="email" placeholder="Your email" data-i18n-placeholder="emailPh" autocomplete="email" aria-label="Email address" data-i18n-aria-label="emailLabel" required>
+      <button id="go" type="submit" data-i18n="cta">Get early access</button>
     </form>
     <div class="err" id="err" role="alert"></div>
-    <p class="fine">We'll only use your email to tell you when OneCV launches, and we'll delete it by 31 December 2026.</p>
+    <p class="fine" data-i18n="fine">We'll only use your email to tell you when OneCV launches, and we'll delete it by 31 December 2026.</p>
   </section>
 
   <section id="s-price" hidden>
     <div class="panel">
-      <h2>You're on the list!</h2>
-      <p>Quick question to help us build OneCV.</p>
+      <h2 data-i18n="listH">You're on the list!</h2>
+      <p data-i18n="listP">Quick question to help us build OneCV.</p>
     </div>
-    <p class="q">If OneCV launched today, which option would you most likely choose?</p>
+    <p class="q" data-i18n="q">If OneCV launched today, which option would you most likely choose?</p>
     <div class="opts">
-      <button class="opt" data-plan="free"><span>Free<span class="d">3 tailored CVs per month</span></span><span class="pr">0 kr</span></button>
-      <button class="opt" data-plan="basic49"><span>Basic<span class="d">3 tailored CVs per month + application tracker</span></span><span class="pr">49 kr/mo</span></button>
-      <button class="opt" data-plan="premium99"><span>Premium<span class="d">Unlimited tailored CVs + application tracker</span></span><span class="pr">99 kr/mo</span></button>
-      <button class="opt" data-plan="notsure"><span>I wouldn't use it / not sure</span></button>
+      <button class="opt" data-plan="free"><span><span data-i18n="free">Free</span><span class="d" data-i18n="freeD">3 tailored CVs per month</span></span><span class="pr">0 kr</span></button>
+      <button class="opt" data-plan="basic49"><span><span>Basic</span><span class="d" data-i18n="basicD">3 tailored CVs per month + application tracker</span></span><span class="pr" data-i18n="basicP">49 kr/mo</span></button>
+      <button class="opt" data-plan="premium99"><span><span>Premium</span><span class="d" data-i18n="premD">Unlimited tailored CVs + application tracker</span></span><span class="pr" data-i18n="premP">99 kr/mo</span></button>
+      <button class="opt" data-plan="notsure"><span data-i18n="notsure">I wouldn't use it / not sure</span></button>
     </div>
-    <button class="link" id="skip">Skip this question</button>
+    <button class="link" id="skip" data-i18n="skip">Skip this question</button>
   </section>
 
   <section id="s-thanks" hidden>
     <div class="panel">
-      <h2>Thanks, you're in!</h2>
-      <p>OneCV is being developed as part of an entrepreneurship course at the University of Oslo.</p>
-      <p>We'll only email you about the launch, and we'll delete your email by 31 December 2026.</p>
-      <p id="rm-wrap">Changed your mind? <button class="link" id="rm">Remove my email</button></p>
-      <p id="rm-done" hidden>Your email has been removed. Thanks for stopping by!</p>
+      <h2 data-i18n="thanksH">Thanks, you're in!</h2>
+      <p data-i18n="thanksP1">OneCV is being developed as part of an entrepreneurship course at the University of Oslo.</p>
+      <p data-i18n="thanksP2">We'll only email you about the launch, and we'll delete your email by 31 December 2026.</p>
+      <p id="rm-wrap"><span data-i18n="rmQ">Changed your mind?</span> <button class="link" id="rm" data-i18n="rmBtn">Remove my email</button></p>
+      <p id="rm-done" hidden data-i18n="rmDone">Your email has been removed. Thanks for stopping by!</p>
     </div>
   </section>
 
-  <footer>OneCV is an early-stage startup being built by students in Oslo.</footer>
+  <footer data-i18n="footer">OneCV is an early-stage startup being built by students in Oslo.</footer>
 </main>
 <script>
 (function(){
   var p = new URLSearchParams(location.search);
   var src = (p.get('src') || 'direct').toLowerCase().replace(/[^a-z0-9_-]/g,'').slice(0,30) || 'direct';
   var sid = null;
+  var T = {
+    en: {}, // filled from the page's original English text below
+    no: {
+      title: 'OneCV – Én CV for alle jobbsøknadene dine',
+      desc: 'Få en skreddersydd CV for hver bedrift fra én hoved-CV, og hold oversikt over alle søknadene dine på ett sted.',
+      h1: 'Én CV for alle jobbsøknadene dine',
+      lead: 'Last opp hoved-CV-en din én gang. Få en versjon tilpasset hver bedrift du søker hos.',
+      b1: 'Skriv én gang, tilpass overalt.', b1t: 'Gjør én hoved-CV om til en versjon tilpasset hver bedrift du søker hos.',
+      b2: 'Alle søknader, ett sted.', b2t: 'Se hvor du har søkt, hva som venter og hva som er neste steg. Ingen flere borte e-poster eller glemte oppfølginger.',
+      b3: 'Bruk tiden der den teller.', b3t: 'Mindre tid på å skrive om CV-er, mer tid til å forberede deg til intervjuet og selve jobben.',
+      emailPh: 'Din e-post', emailLabel: 'E-postadresse', cta: 'Få tidlig tilgang',
+      fine: 'Vi bruker kun e-posten din til å si fra når OneCV lanseres, og vi sletter den innen 31. desember 2026.',
+      errEmail: 'Skriv inn en gyldig e-postadresse.', errGeneric: 'Noe gikk galt. Prøv igjen.',
+      listH: 'Du står på listen!', listP: 'Et raskt spørsmål for å hjelpe oss å bygge OneCV.',
+      q: 'Hvis OneCV ble lansert i dag, hvilket alternativ ville du mest sannsynlig valgt?',
+      free: 'Gratis', freeD: '3 tilpassede CV-er per måned',
+      basicD: '3 tilpassede CV-er per måned + søknadsoversikt', basicP: '49 kr/mnd',
+      premD: 'Ubegrenset antall tilpassede CV-er + søknadsoversikt', premP: '99 kr/mnd',
+      notsure: 'Jeg ville ikke brukt det / usikker', skip: 'Hopp over spørsmålet',
+      thanksH: 'Takk, du er med!',
+      thanksP1: 'OneCV utvikles som en del av et entreprenørskapsemne ved Universitetet i Oslo.',
+      thanksP2: 'Vi sender deg kun e-post om lanseringen, og vi sletter e-posten din innen 31. desember 2026.',
+      rmQ: 'Ombestemt deg?', rmBtn: 'Fjern e-posten min', rmDone: 'E-posten din er fjernet. Takk for at du tok en titt!',
+      rmErr: 'Noe gikk galt, prøv igjen',
+      footer: 'OneCV er en oppstartsbedrift i tidlig fase som bygges av studenter i Oslo.'
+    }
+  };
+  T.en.errEmail = 'Please enter a valid email address.';
+  T.en.errGeneric = 'Something went wrong. Please try again.';
+  T.en.rmErr = 'Something went wrong, try again';
+  var ATTRS = ['content', 'placeholder', 'aria-label'];
+  document.querySelectorAll('[data-i18n]').forEach(function(el){ T.en[el.getAttribute('data-i18n')] = el.textContent; });
+  ATTRS.forEach(function(a){ document.querySelectorAll('[data-i18n-'+a+']').forEach(function(el){ T.en[el.getAttribute('data-i18n-'+a)] = el.getAttribute(a); }); });
+  var lang = 'en';
+  function t(k){ return T[lang][k] || T.en[k]; }
+  function setLang(l){
+    lang = T[l] ? l : 'en';
+    document.documentElement.lang = lang === 'no' ? 'nb' : 'en';
+    document.querySelectorAll('[data-i18n]').forEach(function(el){ el.textContent = t(el.getAttribute('data-i18n')); });
+    ATTRS.forEach(function(a){ document.querySelectorAll('[data-i18n-'+a+']').forEach(function(el){ el.setAttribute(a, t(el.getAttribute('data-i18n-'+a))); }); });
+    document.querySelectorAll('[data-lang]').forEach(function(b){ b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang)); });
+    if (err.textContent) err.textContent = err.dataset.k ? t(err.dataset.k) : '';
+    if (rmBtn.dataset.k) rmBtn.textContent = t(rmBtn.dataset.k);
+  }
   function store(k,v){try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v);}catch(e){return null}}
   function send(body){
     return fetch('/api/event',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)})
@@ -103,15 +158,22 @@ footer{margin-top:48px;color:var(--muted);font-size:13px;border-top:1px solid va
   }
   function show(id){['s-landing','s-price','s-thanks'].forEach(function(s){document.getElementById(s).hidden=(s!==id)}); window.scrollTo(0,0);}
   var form=document.getElementById('signup'), email=document.getElementById('email'), err=document.getElementById('err'), go=document.getElementById('go');
+  var rmBtn=document.getElementById('rm');
   email.addEventListener('input',function(){err.textContent=''});
+  // Language: ?lang=no|en wins, then the visitor's saved choice, then the browser language.
+  var want = (p.get('lang') || store('onecv_lang') || (/^(nb|nn|no)\b/i.test(navigator.language || '') ? 'no' : 'en')).toLowerCase();
+  setLang(want === 'nb' || want === 'nn' ? 'no' : want);
+  document.querySelectorAll('[data-lang]').forEach(function(b){
+    b.addEventListener('click',function(){ setLang(b.getAttribute('data-lang')); store('onecv_lang', lang); });
+  });
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var v=email.value.trim();
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){err.textContent='Please enter a valid email address.';return;}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){err.dataset.k='errEmail';err.textContent=t('errEmail');return;}
     go.disabled=true;
     send({type:'signup',src:src,email:v}).then(function(r){
       if(!r.ok) throw 0; sid=r.id; show('s-price');
-    }).catch(function(){err.textContent='Something went wrong. Please try again.';go.disabled=false;});
+    }).catch(function(){err.dataset.k='errGeneric';err.textContent=t('errGeneric');go.disabled=false;});
   });
   document.querySelectorAll('[data-plan]').forEach(function(b){
     b.addEventListener('click',function(){
@@ -121,13 +183,13 @@ footer{margin-top:48px;color:var(--muted);font-size:13px;border-top:1px solid va
     });
   });
   document.getElementById('skip').addEventListener('click',function(){show('s-thanks')});
-  document.getElementById('rm').addEventListener('click',function(){
+  rmBtn.addEventListener('click',function(){
     var btn=this; btn.disabled=true;
     send({type:'remove',src:src,id:sid}).then(function(r){
       if(!r.ok) throw 0;
       document.getElementById('rm-wrap').hidden=true;
       document.getElementById('rm-done').hidden=false;
-    }).catch(function(){btn.disabled=false;btn.textContent='Something went wrong, try again';});
+    }).catch(function(){btn.disabled=false;btn.dataset.k='rmErr';btn.textContent=t('rmErr');});
   });
 })();
 </script>
