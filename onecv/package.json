@@ -1,0 +1,9 @@
+{
+  "name": "onecv-landing",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@vercel/blob": "^2.0.0",
+    "exceljs": "^4.4.0"
+  }
+}
