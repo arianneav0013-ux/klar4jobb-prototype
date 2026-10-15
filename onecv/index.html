@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title data-i18n="title">OneCV – One CV for all your job applications</title>
 <meta name="description" data-i18n-content="desc" content="Get a tailored CV for each company from one master CV, and track every application in one place.">
+<link rel="icon" type="image/svg+xml" href="/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f7f5f0;--card:#fff;--ink:#1d1b18;--muted:#5f5a52;--line:#e3ded4;--accent:#2f5d50;--accent-ink:#fff;--soft:#e7efe9}
 *{box-sizing:border-box}
@@ -38,7 +39,9 @@ button:disabled{opacity:.6;cursor:default}
 .link{background:none;color:var(--muted);padding:4px 0;font:500 14px Inter,sans-serif;text-decoration:underline}
 [hidden]{display:none!important}
 .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
-.top .brand{margin-bottom:0}
+.top .brand{margin-bottom:0;display:inline-flex;align-items:center;gap:10px;text-decoration:none;font:700 26px/1 Fraunces,Georgia,serif;letter-spacing:0}
+.logo-icon{width:30px;height:auto;display:block}
+.brand:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
 .lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
 .lang button{background:none;color:var(--muted);padding:6px 12px;border-radius:0;font:600 13px Inter,sans-serif}
 .lang button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
@@ -48,7 +51,7 @@ footer{margin-top:48px;color:var(--muted);font-size:13px;border-top:1px solid va
 <body>
 <main>
   <div class="top">
-    <div class="brand">OneCV</div>
+    <a class="brand" id="home" href="/" aria-label="OneCV"><svg class="logo-icon" viewBox="100 100 840 1000" aria-hidden="true" focusable="false"><rect x="288" y="288" width="640" height="800" rx="28" fill="#e1ebe4"/><rect x="224" y="224" width="640" height="800" rx="28" fill="#a9c4b4"/><rect x="160" y="160" width="640" height="800" rx="28" fill="#5e8a77"/><path d="M128 112H568L784 328V927a16 16 0 0 1-16 16H128a16 16 0 0 1-16-16V128a16 16 0 0 1 16-16Z" fill="#2f5d50"/><path d="M584 144V312H752Z" fill="#cadcd0"/><path d="M248 288H448M248 388H508" stroke="#cadcd0" stroke-width="36" stroke-linecap="round"/><path d="M266 627L406 767L648 485" fill="none" stroke="#f5f4ef" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/></svg><span>OneCV</span></a>
     <div class="lang" role="group" aria-label="Language / Språk">
       <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
       <button type="button" data-lang="no" lang="no" aria-pressed="false">NO</button>
@@ -103,6 +106,7 @@ footer{margin-top:48px;color:var(--muted);font-size:13px;border-top:1px solid va
   var p = new URLSearchParams(location.search);
   var src = (p.get('src') || 'direct').toLowerCase().replace(/[^a-z0-9_-]/g,'').slice(0,30) || 'direct';
   var sid = null;
+  document.getElementById('home').href = location.pathname + location.search;
   var T = {
     en: {}, // filled from the page's original English text below
     no: {
