@@ -1,7 +1,8 @@
 import { put, list, del } from '@vercel/blob';
 
 // Storage layout (all private):
-//   visits/{src}/{rid}.json      one per unique visitor
+//   visits/{src}/{rid}.json      one per unique visitor (older visits)
+//   visits/{src}/{rid}__r-{referrer}__d-{device}__b-{y|n}.json   newer visits, with anonymous details in the name
 //   signups/{src}/{id}.json      one per sign-up (no personal data, used for counting)
 //   emails/{id}.json             the email itself; deleted if the person clicks "Remove my email"
 //   plans/{plan}/{src}/{id}.json answer to the pricing question
@@ -12,6 +13,10 @@ import { put, list, del } from '@vercel/blob';
 const clean = (s, n = 30) => String(s || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, n);
 const rid = () => Date.now() + '-' + Math.random().toString(36).slice(2, 10);
 const PLANS = ['free', 'basic49', 'premium99', 'notsure'];
+const BOT_UA = /bot|crawl|spider|slurp|preview|headless|python|curl|wget|scan|facebookexternalhit|lighthouse|phantom|selenium|puppeteer|playwright/i;
+// Referring site as a bare hostname, with www./m./l./lm. prefixes removed (e.g. l.facebook.com -> facebook.com).
+const cleanRef = s => String(s || '').toLowerCase().replace(/^(www|m|l|lm)\./, '').replace(/[^a-z0-9.-]/g, '').slice(0, 60) || 'none';
+const deviceOf = ua => (/iPad|Tablet/i.test(ua) ? 'tablet' : /Mobi|Android|iPhone|iPod/i.test(ua) ? 'mobile' : 'desktop');
 const PROFILES = ['bachelor', 'master_phd', 'recent_grad', 'working', 'other'];
 const APPLYING = ['active', 'soon', 'no'];
 
@@ -22,7 +27,9 @@ export async function POST(request) {
   const opts = { access: 'private', addRandomSuffix: false, contentType: 'application/json' };
   try {
     if (b.type === 'visit') {
-      await put(`visits/${src}/${rid()}.json`, '{}', opts);
+      const ua = request.headers.get('user-agent') || '';
+      const bot = BOT_UA.test(ua) || b.h === 1 ? 'y' : 'n';
+      await put(`visits/${src}/${rid()}__r-${cleanRef(b.ref)}__d-${deviceOf(ua)}__b-${bot}.json`, '{}', opts);
       return Response.json({ ok: true });
     }
     if (b.type === 'signup') {

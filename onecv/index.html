@@ -193,7 +193,10 @@ footer{margin-top:48px;color:var(--muted);font-size:13px;border-top:1px solid va
   }
   if(!navigator.webdriver && !store('onecv_seen')){
     store('onecv_seen','1');
-    send({type:'visit',src:src}).catch(function(){});
+    // Referring site (hostname only) and a headless-browser hint, to help tell where visits come from.
+    var ref=''; try{ ref=document.referrer ? new URL(document.referrer).hostname : ''; }catch(e){}
+    if(ref===location.hostname) ref='';
+    send({type:'visit',src:src,ref:ref,h:(navigator.languages&&navigator.languages.length)?0:1}).catch(function(){});
   }
   function show(id){['s-landing','s-price','s-thanks'].forEach(function(s){document.getElementById(s).hidden=(s!==id)}); window.scrollTo(0,0);}
   var form=document.getElementById('signup'), email=document.getElementById('email'), err=document.getElementById('err'), go=document.getElementById('go');
