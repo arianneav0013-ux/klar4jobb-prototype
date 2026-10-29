@@ -71,6 +71,12 @@ const osloDay = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Oslo' });
 const dayOf = ts => (Number.isFinite(ts) && ts > 0 ? osloDay.format(new Date(ts)) : 'unknown');
 const DEVICES = ['mobile', 'desktop', 'tablet'];
 const refLabel = r => (r === 'none' ? 'none (typed, QR code, app or bookmark)' : r);
+// What each ?src= channel is used for. Channels in ALWAYS_SHOW get a row even before their first visit.
+const CHANNELS = { direct: 'No ?src= in the link (typed, forwarded or bare link)', facebook: 'Facebook posts and groups',
+  fbprofile: 'Facebook profile post', poster: 'Campus posters (same QR code on all three posters)', instagram: 'Instagram',
+  linkedin: 'LinkedIn', friends: 'Friends and family', test: 'Your own testing' };
+const ALWAYS_SHOW = ['fbprofile', 'poster'];
+const channelNote = s => CHANNELS[s] || (s.startsWith('fb-') ? 'Facebook group' : s.startsWith('uio-') ? 'UiO spot QR code' : '');
 const PLAN_LABELS = { free: 'Free (0 kr)', basic49: 'Basic (49 kr/mo)', premium99: 'Premium (99 kr/mo)', notsure: "Wouldn't use it / not sure" };
 const PROFILE_LABELS = { bachelor: "Bachelor's student", master_phd: "Master's or PhD student", recent_grad: 'Graduated in the last 2 years',
   working: 'Working / graduated more than 2 years ago', other: 'Other' };
@@ -89,7 +95,7 @@ export async function GET(request) {
   const vBy = tally(visits, 1), sBy = tally(signups, 1), pBy = tally(plans, 1), rBy = tally(removed, 1);
   const paid = (pBy.basic49 || 0) + (pBy.premium99 || 0);
   const answered = plans.length;
-  const srcs = [...new Set([...Object.keys(vBy), ...Object.keys(sBy)])].sort();
+  const srcs = [...new Set([...Object.keys(vBy), ...Object.keys(sBy), ...ALWAYS_SHOW])].sort();
 
   // One row per sign-up with its answers (or "none"), used for the question tables and breakdowns.
   const planOf = codeById(plans), profileOf = codeById(profiles), applyingOf = codeById(applying);
@@ -162,8 +168,8 @@ export async function GET(request) {
       ['Exported (UTC)', new Date().toISOString().slice(0, 16).replace('T', ' ')],
     ]);
     summary.getColumn(2).eachCell((c, i) => { if ([4, 6, 9].includes(i)) c.numFmt = '0.0%'; });
-    sheet('By channel', [['Source', 20], ['Visitors', 12], ['Sign-ups', 12], ['Sign-up rate', 14], ['Removed', 12]],
-      srcs.map(s => [s, vBy[s] || 0, sBy[s] || 0, ratio(sBy[s] || 0, vBy[s] || 0), rBy[s] || 0]), [4]);
+    sheet('By channel', [['Source', 20], ['What it is', 44], ['Visitors', 12], ['Sign-ups', 12], ['Sign-up rate', 14], ['Removed', 12]],
+      srcs.map(s => [s, channelNote(s), vBy[s] || 0, sBy[s] || 0, ratio(sBy[s] || 0, vBy[s] || 0), rBy[s] || 0]), [5]);
     const answerSheet = (name, labels, field, extra = []) => sheet(name, [['Answer', 44], ['Count', 10], ['% of sign-ups', 14]],
       [...Object.keys(labels).map(c => [labels[c], count(people, field, c), ratio(count(people, field, c), n)]),
        ['No answer', count(people, field, NONE), ratio(count(people, field, NONE), n)], ...extra], [3]);
@@ -203,7 +209,7 @@ export async function GET(request) {
   }
 
   const n = signups.length;
-  const row = s => `<tr><td>${esc(s)}</td><td>${vBy[s] || 0}</td><td>${sBy[s] || 0}</td><td>${pct(sBy[s] || 0, vBy[s] || 0)}</td><td>${rBy[s] || 0}</td></tr>`;
+  const row = s => `<tr><td>${esc(s)}</td><td class="n">${esc(channelNote(s))}</td><td>${vBy[s] || 0}</td><td>${sBy[s] || 0}</td><td>${pct(sBy[s] || 0, vBy[s] || 0)}</td><td>${rBy[s] || 0}</td></tr>`;
   const answerTable = (labels, field, extra = '') => `<table><tr><th>Answer</th><th>Count</th><th>% of sign-ups</th></tr>
 ${Object.keys(labels).map(c => `<tr><td>${esc(labels[c])}</td><td>${count(people, field, c)}</td><td>${pct(count(people, field, c), n)}</td></tr>`).join('')}
 <tr class="na"><td>No answer</td><td>${count(people, field, NONE)}</td><td>${pct(count(people, field, NONE), n)}</td></tr>${extra}</table>`;
@@ -232,7 +238,7 @@ ${Object.keys(PLAN_LABELS).map(p => `<tr><td>${PLAN_LABELS[p]}</td><td>${pBy[p] 
 ${crossTable('Pricing answer', profileCols, crossTab(profileCols), colTotals(profileCols))}
 <h3>Pricing by job-search status</h3><p class="n">Number of sign-ups; the small % is the share of that column.</p>
 ${crossTable('Pricing answer', applyingCols, crossTab(applyingCols), colTotals(applyingCols))}
-<h2>By channel</h2><table><tr><th>Source</th><th>Visitors</th><th>Sign-ups</th><th>Sign-up rate</th><th>Removed</th></tr>${srcs.map(row).join('') || '<tr><td colspan=5>No data yet</td></tr>'}</table>
+<h2>By channel</h2><table><tr><th>Source</th><th>What it is</th><th>Visitors</th><th>Sign-ups</th><th>Sign-up rate</th><th>Removed</th></tr>${srcs.map(row).join('') || '<tr><td colspan=6>No data yet</td></tr>'}</table>
 <p class="n">Tip: report the overall rate with and without the "friends" channel.</p>
 <h2>Where visits come from</h2>
 <h3>Visits by day</h3><p class="n">Visits per channel for each day (Oslo time), newest first, with that day's sign-ups. Use it to match jumps in visits to when you posted, printed posters or tested.</p>
